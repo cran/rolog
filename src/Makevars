@@ -1,0 +1,33 @@
+PKG_CPPFLAGS=-I../inst/swipl/lib/swipl/include $(CXXPICFLAGS) -D_REENTRANT -D__SWI_PROLOG__ -D__SWI_EMBEDDED__
+PKG_LIBS=`pkg-config ../inst/swipl/share/pkgconfig/swipl.pc --libs`
+
+CMAKE_VERSION := $(shell cmake --version 2>/dev/null)
+CMAKE_VERSION_MACOS := $(shell /Applications/CMake.app/Contents/bin/cmake --version 2>/dev/null)
+
+all: swipl $(SHLIB) libinst
+
+swipl:
+	mkdir -p ../linux
+ifdef CMAKE_VERSION
+	cd ../linux && cmake -DCMAKE_INSTALL_PREFIX=../inst/swipl -DINSTALL_DOCUMENTATION=OFF -DSWIPL_PACKAGES_JAVA=OFF -DSWIPL_PACKAGES_X=OFF -DUSE_GMP=OFF -DBUILD_TESTING=OFF -DSWIPL_SHARED_LIB=OFF -DSWIPL_STATIC_LIB=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS="-fPIC" ../src/swipl-devel && make && make install
+endif
+ifdef CMAKE_VERSION_MACOS
+	cd ../linux && /Applications/CMake.app/Contents/bin/cmake -DCMAKE_INSTALL_PREFIX=../inst/swipl -DINSTALL_DOCUMENTATION=OFF -DSWIPL_PACKAGES_JAVA=OFF -DSWIPL_PACKAGES_X=OFF -DUSE_GMP=OFF -DSWIPL_SHARED_LIB=OFF -DSWIPL_STATIC_LIB=ON -DBUILD_TESTING=OFF -DSWIPL_PACKAGES_TERM=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS="-fPIC" ../src/swipl-devel && make && make install
+endif
+
+libinst:
+	mkdir -p ../inst
+	mkdir -p ../inst/doc
+	cp ../vignettes/bibliography.bibtex ../inst/doc
+	mkdir -p ../libs
+	cp rolog.so ../libs
+	rm ../inst/swipl/bin/swipl
+	rm ../inst/swipl/bin/swipl-ld
+ifdef CMAKE_VERSION
+	-rm ../inst/swipl/lib/swipl/bin/x86_64-linux/swipl
+	-rm ../inst/swipl/lib/swipl/bin/x86_64-linux/swipl-ld
+endif
+ifdef CMAKE_VERSION_MACOS
+	-rm ../inst/swipl/lib/swipl/bin/*/swipl
+	-rm ../inst/swipl/lib/swipl/bin/*/swipl-ld
+endif
