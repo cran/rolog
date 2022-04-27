@@ -1,8 +1,8 @@
 Package: rolog
 Type: Package
 Title: Query 'SWI'-'Prolog' from R
-Version: 0.9
-Date: 2022-04-21
+Version: 0.9.1
+Date: 2022-04-26
 Author: Matthias Gondan
 Maintainer: Matthias Gondan <Matthias.Gondan-Rochon@uibk.ac.at>
 Description: This R package embeds 'SWI'-'Prolog', <https://www.swi-prolog.org/>, so that R can send deterministic and non-deterministic queries to 'prolog' ('consult', 'query'/'submit', 'once', 'findall').
@@ -19,6 +19,6 @@ Suggests: rmarkdown, knitr, DiagrammeR, DiagrammeRsvg, htmltools,
 Config/testthat/edition: 3
 VignetteBuilder: knitr, rmarkdown
 NeedsCompilation: yes
-Packaged: 2022-04-24 11:17:18 UTC; matthias
+Packaged: 2022-04-26 22:32:32 UTC; Matthias
 Repository: CRAN
-Date/Publication: 2022-04-25 12:10:02 UTC
+Date/Publication: 2022-04-27 22:40:02 UTC
