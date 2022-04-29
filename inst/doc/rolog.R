@@ -12,10 +12,10 @@ library(rolog)
 # member(1, [1, 2.0, a, "b", X])
 query(call("member", 1L, list(1L, 2.0, quote(a), "b", expression(X), TRUE)))
 
-# returns an empty list, stating that the query satisfied
+# returns an empty list, stating that member(1, [1 | _]) is satisfied
 submit()
 
-# returns a list, stating that the query is satisfied if X = 1
+# returns a list, stating that the query is also satisfied if X = 1
 submit()
 
 # close the query
@@ -82,7 +82,7 @@ stringify <- function(x)
 	return(x)
 }
 
-# This may be the return value of a Prolog query
+# Example illustration
 q <- quote(member(.X, ""[a, b, c]))
 r <- findall(as.rolog(q))
 stringify(r)
