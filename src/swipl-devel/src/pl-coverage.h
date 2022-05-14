@@ -3,7 +3,9 @@
     Author:        Jan Wielemaker
     E-mail:        J.Wielemaker@vu.nl
     WWW:           http://www.swi-prolog.org
-    Copyright (c)  2000-2015, University of Amsterdam
+    Copyright (c)  2022, University of Amsterdam
+                         VU University Amsterdam
+		         CWI, Amsterdam
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -32,23 +34,21 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef CLIB_H_INCLUDED
-#define CLIB_H_INCLUDED
+#include "pl-incl.h"
 
-#include <config.h>
-#include <SWI-Prolog.h>
-#include "error.h"
+#ifndef _PL_COVERAGE_H
+#define _PL_COVERAGE_H
 
-#define CompoundArg(name, arity) \
-	PL_FUNCTOR, PL_new_functor(PL_new_atom(name), (arity))
-#define AtomArg(name) \
-	PL_CHARS, name
-#define AtomMbArg(name) \
-	PL_MBCHARS, name
-#define IntArg(i) \
-	PL_INTEGER, (long)(i)
+void	record_coverage(LocalFrame fr, int port);
+int	free_coverage_data(PL_local_data_t *ld);
 
-install_t	install_process(void);
-install_t	install_socket(void);
+static inline void
+Coverage(LocalFrame fr, int port)
+{
+#if O_COVERAGE
+  if ( LD->coverage.active )
+    record_coverage(fr, port);
+#endif
+}
 
-#endif /*CLIB_H_INCLUDED*/
+#endif /*_PL_COVERAGE_H*/

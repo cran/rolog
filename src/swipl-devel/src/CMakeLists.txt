@@ -75,7 +75,7 @@ set(SRC_CORE pl-atom.c pl-wam.c pl-arith.c pl-bag.c pl-error.c
     pl-copyterm.c pl-debug.c pl-cont.c pl-ressymbol.c pl-dict.c
     pl-trie.c pl-indirect.c pl-tabling.c pl-rsort.c pl-mutex.c
     pl-allocpool.c pl-wrap.c pl-event.c pl-transaction.c
-    pl-undo.c pl-alloc.c pl-index.c pl-fli.c)
+    pl-undo.c pl-alloc.c pl-index.c pl-fli.c pl-coverage.c)
 
 set(LIBSWIPL_SRC
     ${SRC_CORE}
@@ -370,7 +370,7 @@ endif()
 add_executable(swipl${PGO_SUFFIX} ${SWIPL_SRC})
 target_link_libraries(swipl${PGO_SUFFIX} ${SWIPL_LIBRARIES} libswipl${PGO_SUFFIX})
 target_c_stack(swipl${PGO_SUFFIX} 4000000)
-if(MINGW_ROOT)
+if(MINGW)
   target_link_options(swipl${PGO_SUFFIX} PRIVATE -municode)
 endif()
 

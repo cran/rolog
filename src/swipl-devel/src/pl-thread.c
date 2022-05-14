@@ -2039,11 +2039,12 @@ copy_local_data(PL_local_data_t *ldnew, PL_local_data_t *ldold,
   if ( !ldnew->thread.info->debug )
   { ldnew->_debugstatus.tracing   = FALSE;
     ldnew->_debugstatus.debugging = DBG_OFF;
-    setPrologFlagMask_LD(ldnew, PLFLAG_LASTCALL);
+    setPrologRunMode_LD(ldnew, RUN_MODE_NORMAL);
   }
   ldnew->thread.waiting_for = NULL;
   init_message_queue(&ldnew->thread.messages, max_queue_size);
   init_predicate_references(ldnew);
+  referenceStandardStreams(ldnew);
 }
 
 
@@ -6320,7 +6321,7 @@ PL_thread_attach_engine(PL_thread_attr_t *attr)
     if ( true(attr, PL_THREAD_NO_DEBUG) )
     { ldnew->_debugstatus.tracing   = FALSE;
       ldnew->_debugstatus.debugging = DBG_OFF;
-      setPrologFlagMask_LD(ldnew, PLFLAG_LASTCALL);
+      setPrologRunMode_LD(ldnew, RUN_MODE_NORMAL);
       info->debug = FALSE;
     }
   }

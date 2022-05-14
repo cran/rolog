@@ -22,7 +22,13 @@ submit()
 clear()
 
 ## -----------------------------------------------------------------------------
-once(call("r_eval", c(1, 2, NA, NaN, Inf), expression(X)))
+Q <- call("r_eval", c(1, 2, NA, NaN, Inf), expression(X))
+once(Q, options=list(portray=TRUE))
+
+## -----------------------------------------------------------------------------
+options(rolog.intvec="%%")
+Q <- call("member", expression(X), list(1:3, 4:6))
+once(Q, options=list(intvec="%%"))
 
 ## ---- echo=FALSE, fig.width=6, fig.height=2-----------------------------------
 HTML(export_svg(grViz(
@@ -65,92 +71,62 @@ HTML(export_svg(grViz(
    }')))
 
 ## -----------------------------------------------------------------------------
+Q <- quote(member(.X, ""[1, 2, 3, a, b]))
+as.rolog(Q)
+
+## -----------------------------------------------------------------------------
 stringify <- function(x)
 {
-  # replace Prolog variable by the value of an R variable with the same name
-	if(is.name(x))
-	  return(as.character(x))
-	
-	# Recurse into lists and calls
-	if(is.call(x))
-	  x[-1] <- lapply(x[-1], FUN=stringify)
+  if(is.name(x))
+    return(as.character(x))
 
-	if(is.list(x))
-	  x <- lapply(x, FUN=stringify)
+  if(is.call(x))
+    x[-1] <- lapply(x[-1], FUN=stringify)
 
-  # Leave the rest unchanged
-	return(x)
+  if(is.list(x))
+    x <- lapply(x, FUN=stringify)
+
+  return(x)
 }
 
-# Example illustration
-q <- quote(member(.X, ""[a, b, c]))
-r <- findall(as.rolog(q))
-stringify(r)
+Q <- quote(member(.X, ""[a, b, c]))
+R <- findall(as.rolog(Q))
+S <- stringify(R)
+unlist(S)   # the unlist saves space in the output
 
 ## -----------------------------------------------------------------------------
 library(rolog)
-
-# [family].
 consult(system.file(file.path("pl", "family.pl"), package="rolog"))
-
-# ancestor(X, jim).
 query(call("ancestor", expression(X), quote(jim)))
-
-# solutions for X, one by one
-submit()
-submit()
-submit()
-submit()
-submit() # no more results (closing the query)
-submit() # warning that no query is open
-# clear() # normally used to close a query
+submit()        # solutions for X
+submit()        # etc.
+clear()         # close the query
 
 ## -----------------------------------------------------------------------------
-# [backdoor].
 consult(system.file(file.path("pl", "backdoor.pl"), package="rolog"))
 
-# Figure 12 in Greenland et al.
-add_node = function(N)
-	invisible(once(call("assert", call("node", N))))
+node <- function(N) invisible(once(call("assert", call("node", N))))
+node("a"); node("b"); node("c"); node("f"); node("u")
+node("e") # exposure
+node("d") # outcome
 
-add_arrow = function(X, Y)
-	invisible(once(call("assert", call("arrow", X, Y))))
+arrow <- function(X, Y) invisible(once(call("assert", call("arrow", X, Y))))
+arrow("a", "d"); arrow("a", "f"); arrow("b", "d"); arrow("b", "f")
+arrow("c", "d"); arrow("c", "f"); arrow("e", "d"); arrow("f", "e")
+arrow("u", "a"); arrow("u", "b"); arrow("u", "c")
 
-add_node("a")
-add_node("b")
-add_node("c")
-add_node("d") # outcome
-add_node("e") # exposure
-add_node("f")
-add_node("u")
-
-add_arrow("a", "d")
-add_arrow("a", "f")
-add_arrow("b", "d")
-add_arrow("b", "f")
-add_arrow("c", "d")
-add_arrow("c", "f")
-add_arrow("e", "d")
-add_arrow("f", "e")
-add_arrow("u", "a")
-add_arrow("u", "b")
-add_arrow("u", "c")
-
-findall(call("minimal", "e", "d", expression(S)))
+R <- findall(call("minimal", "e", "d", expression(S)))
+unlist(R)
 
 ## -----------------------------------------------------------------------------
-# [telescope].
 consult(system.file(file.path("pl", "telescope.pl"), package="rolog"))
-
-# findall(sentence(Tree, "john saw a man with a telescope")).
-findall(call("sentence", expression(Tree), "john saw a man with a telescope"))
+Q <- quote(sentence(.Tree, "john sees a man with a telescope"))
+unlist(findall(as.rolog(Q)))
 
 ## -----------------------------------------------------------------------------
-library(rolog)
 consult(system.file(file.path("pl", "buggy.pl"), package="rolog"))
-
-q <- quote(search(tratio(x, mu, s, n), .S))
-findall(as.rolog(q))
+Q <- quote(search(tratio(x, mu, s, n), .S))
+unlist(findall(as.rolog(Q)))
 
 ## -----------------------------------------------------------------------------
 library(rolog)
@@ -211,35 +187,24 @@ mathml(canonical(term))
 eval(term)
 
 ## -----------------------------------------------------------------------------
-# [r_eval].
 consult(system.file(file.path("pl", "r_eval.pl"), package="rolog"))
-
-# rnorm(3)
+invisible(once(call("r_seed", 1234)))
 once(call("r_norm", 3L, expression(X)))
 
 ## -----------------------------------------------------------------------------
-# [interval].
 consult(system.file(file.path("pl", "interval.pl"), package="rolog"))
 
-# findall(1 ... 2 / -3 ... 3, Res).
-q <- quote(int(`...`(1, 2) / `...`(-3, 3), .Res))
-findall(as.rolog(q))
+Q <- quote(int(`...`(1, 2) / `...`(-3, 3), .Res))
+unlist(findall(as.rolog(Q)))
 
-# t-ratio
-D  = quote(`...`(5.7, 5.8))
-mu = 4
-s  = quote(`...`(3.8, 3.9))
-N  = 24L
-tratio = call("/", call("-", D, mu), call("/", s, call("sqrt", N)))
-findall(call("int", tratio, expression(Res)))
+D  <- quote(`...`(5.7, 5.8))
+mu <- 4
+s  <- quote(`...`(3.8, 3.9))
+N  <- 24L
+tratio <- call("/", call("-", D, mu), call("/", s, call("sqrt", N)))
+once(call("int", tratio, expression(Res)))
 
 # Binomial density
 prob = quote(`...`(0.2, 0.3))
-once(call("int", call("dbinom", 4L, 10L, prob, FALSE), expression(Res)))
-
-prob = quote(`...`(0.5, 0.6))
-once(call("int", call("dbinom", 4L, 10L, prob, FALSE), expression(Res)))
-
-prob = quote(`...`(0.2, 0.6))
 once(call("int", call("dbinom", 4L, 10L, prob, FALSE), expression(Res)))
 

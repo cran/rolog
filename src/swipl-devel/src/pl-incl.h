@@ -220,6 +220,8 @@ handy for it someone wants to add a data type to the system.
       most C runtime libraries do not correctly implement the float
       rouding modes for many of the trigonomy and expononential
       functions.
+  O_COVERAGE
+      Include low-level coverage analysis code.
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #define O_COMPILE_OR		1
@@ -248,6 +250,7 @@ handy for it someone wants to add a data type to the system.
 #define O_CYCLIC		1
 #define O_MITIGATE_SPECTRE	1
 #define O_ROUND_UP_DOWN		1
+#define O_COVERAGE		1
 #ifndef O_PREFER_RATIONALS
 #define O_PREFER_RATIONALS	FALSE
 #endif
@@ -939,6 +942,7 @@ typedef enum
 #define	ALERT_DEBUG	     0x080
 #define	ALERT_BUFFER	     0x100
 #define	ALERT_UNDO	     0x200
+#define ALERT_COVERAGE	     0x400
 
 
 		 /*******************************
@@ -2660,6 +2664,7 @@ typedef enum plflag
   PLFLAG_AUTOLOAD,			/* do autoloading */
   PLFLAG_CHARCONVERSION,		/* do character-conversion */
   PLFLAG_LASTCALL,			/* Last call optimization enabled? */
+  PLFLAG_VMI_BUILTIN,			/* Use VMI for simple built-ins */
   PLFLAG_PORTABLE_VMI,			/* Generate portable VMI code */
   PLFLAG_SIGNALS,			/* Handle signals */
   PLFLAG_DEBUGINFO,			/* generate debug info */
@@ -2675,7 +2680,8 @@ typedef enum plflag
   PLFLAG_RATIONAL,			/* Natural rational numbers */
   PLFLAG_DEBUG_ON_INTERRUPT,		/* Debug on Control-C */
   PLFLAG_OPTIMISE_UNIFY,		/* Move unifications in clauses */
-  PLFLAG_SHIFT_CHECK			/* Check suspicious shifts */
+  PLFLAG_SHIFT_CHECK,			/* Check suspicious shifts */
+  PLFLAG_AGC_CLOSE_STREAMS		/* AGC may close open streams */
 } plflag;
 
 typedef struct
@@ -2692,6 +2698,18 @@ typedef struct
 #define clearPrologFlagMask(flag) \
 	ATOMIC_AND(&prologFlagMaskInt(LD, flag), ~prologFlagMask(flag))
 #define setPrologFlagMask(flag) setPrologFlagMask_LD(LD, flag)
+
+#define RUN_MODE_NORMAL \
+	(prologFlagMask(PLFLAG_LASTCALL)| \
+	 prologFlagMask(PLFLAG_VMI_BUILTIN))
+#define setPrologRunMode_LD(ld, mask) \
+	ATOMIC_OR(&prologFlagMaskInt(ld, PLFLAG_LASTCALL), mask)
+#define clearPrologRunMode_LD(ld, mask) \
+	ATOMIC_AND(&prologFlagMaskInt(ld, PLFLAG_LASTCALL), ~(mask))
+#define setPrologRunMode(mask) \
+	setPrologRunMode_LD(LD, mask)
+#define clearPrologRunMode(mask) \
+	clearPrologRunMode_LD(LD, mask)
 
 typedef enum
 { OCCURS_CHECK_FALSE = 0,	/* allow rational trees */

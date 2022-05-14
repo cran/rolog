@@ -63,6 +63,7 @@
 #include "pl-proc.h"
 #include "pl-pro.h"
 #include "pl-gvar.h"
+#include "pl-coverage.h"
 #include <sys/stat.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -1783,6 +1784,10 @@ freePrologLocalData(PL_local_data_t *ld)
     free(ld->signal.alt_stack);
 #endif
 
+#ifdef O_COVERAGE
+  free_coverage_data(ld);
+#endif
+
   free_undo_data(ld);
 
   if ( ld->btrace_store )
@@ -1791,6 +1796,7 @@ freePrologLocalData(PL_local_data_t *ld)
   }
 
   cleanAbortHooks(ld);
+  unreferenceStandardStreams(ld);
 }
 
 /* The following definitions aren't necessary for compiling, and in fact
