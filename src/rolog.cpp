@@ -635,6 +635,33 @@ PlTerm r2pl_list(List r, CharacterVector& names, PlTerm& vars, List options)
   return pl ;
 }
 
+// Translate R function to :- ("neck")
+PlTerm r2pl_function(Function r, CharacterVector& names, PlTerm& vars, List options)
+{
+  PlTermv fun(2) ;
+  fun[1] = r2pl_compound(BODY(r), names, vars, options) ;
+  
+  List formals = as<List>(FORMALS(r)) ;
+  size_t len = (size_t) formals.size() ;
+  if(len == 0)
+  {
+    PlTermv pl(3) ;
+    pl[1] = "$function" ;
+    pl[2] = 0 ;
+    PlCall("compound_name_arity", pl) ;
+
+    fun[0] = pl[0] ;
+    return PlCompound(":-", fun) ;
+  }
+  
+  CharacterVector n = formals.names() ;
+  PlTermv pl(len) ;
+  for(size_t i=0 ; i<len ; i++)
+    pl[i] = PlAtom(n(i)) ;
+  fun[0] = PlCompound("$function", pl) ;
+  return PlCompound(":-", fun) ;
+}
+
 PlTerm r2pl(SEXP r, CharacterVector& names, PlTerm& vars, List options)
 {
   if(TYPEOF(r) == LANGSXP)
@@ -664,6 +691,9 @@ PlTerm r2pl(SEXP r, CharacterVector& names, PlTerm& vars, List options)
   if(TYPEOF(r) == NILSXP)
     return r2pl_null() ;
   
+  if(TYPEOF(r) == CLOSXP)
+    return r2pl_function(r, names, vars, options) ;
+  
   return r2pl_na() ;
 }
 
@@ -692,7 +722,7 @@ RlQuery::RlQuery(RObject aquery, List aoptions)
     options(aoptions),
     qid(NULL)
 {
-  options("atomize") = false ;
+  options.push_front(false, "atomize") ;
   PlTerm pl = r2pl(aquery, names, vars, options) ;
   qid = new PlQuery("call", pl) ;
 }
@@ -750,7 +780,7 @@ RlQuery* query_id = NULL ;
 RObject query_(RObject query, List options)
 {
   if(PL_current_query() != 0)
-    stop("Cannot raise simultaneous queries. Please invoke query_close()") ;
+    stop("Cannot raise simultaneous queries. Please invoke clear()") ;
 
   query_id = new RlQuery(query, options) ;
   return wrap(true) ;
@@ -848,7 +878,7 @@ RObject portray_(RObject query, List options)
 
   CharacterVector names ;
   PlTerm vars ;
-  options("atomize") = true ; // translate variables to their R names
+  options.push_front(true, "atomize") ; // translate variables to their R names
   PlTermv pl(3) ;
   pl[0] = r2pl(query, names, vars, options) ;
   PlTail tail(pl[2]) ;
@@ -984,7 +1014,7 @@ bool pl_initialized = false ;
 LogicalVector init_(String argv0)
 {
   if(pl_initialized)
-    warning("Please do not initialize SWI-prolog twice in the same session.") ;
+    return true ;
   
   // Prolog documentation requires that argv is accessible during the entire 
   // session. I assume that this pointer is valid during the whole R session,
@@ -994,7 +1024,10 @@ LogicalVector init_(String argv0)
   argv[0] = argv0.get_cstring() ;
   argv[1] = "-q" ;
   if(!PL_initialise(argc, (char**) argv))
-    stop("rolog_init: initialization failed.") ;
+  {
+    warning("rolog_init: initialization failed.") ;
+    return false ;
+  }
 
   pl_initialized = true ;  
   return true ;

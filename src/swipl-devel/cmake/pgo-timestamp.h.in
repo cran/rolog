@@ -1,1 +1,0 @@
-#cmakedefine PGO_GEN_TIMESTAMP "@PGO_GEN_TIMESTAMP@"

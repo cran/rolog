@@ -1,0 +1,105 @@
+RBIN="${R_HOME}/bin/R"
+RSCRIPT="${R_HOME}/bin/Rscript"
+R_ARCH=$(shell "${RSCRIPT}" -e "cat(R.Version()[['arch']])")
+
+CXX=$(shell "${RBIN}" CMD config CXX)
+CPPFLAGS=$(shell "${RBIN}" CMD config --cppflags)
+CXXFLAGS=$(shell "${RBIN}" CMD config CXXFLAGS)
+CXXPICFLAGS=$(shell "${RBIN}" CMD config CXXPICFLAGS)
+
+SWI_INCLUDE=
+SWI_LIBDIR=
+
+ifeq (x86_64,$(R_ARCH))
+  $(info "Searching for R package rswipl (x86_64)")
+  SWI_HOME4 := $(shell "${RSCRIPT}" -e "cat(gsub('\\\\\\\\', '/',\
+    shortPathName(file.path(find.package('rswipl'), 'mingw64', 'swipl'))))")
+  ifeq ("$(SWI_HOME4)","")
+    $(info "R: package rswipl not found, moving on.")
+  else
+    $(info "R/rswipl: $(SWI_HOME4)")
+    SWI_INCLUDE=-I$(SWI_HOME4)/include
+    SWI_LIBDIR=-L"$(SWI_HOME4)"/bin
+  endif
+endif
+
+ifeq (i386,$(R_ARCH))
+  $(info "Searching for R package rswipl (32 bit)")
+  SWI_HOME4:=$(shell "${RSCRIPT}" -e "cat(gsub('\\\\\\\\', '/', shortPathName(file.path(find.package('rswipl'), 'mingw32', 'swipl'))))")
+  ifeq ("$(SWI_HOME4)","")
+    $(info "R: package rswipl not found")
+  else
+    $(info "R/rswipl: $(SWI_HOME4)")
+    SWI_INCLUDE=-I$(SWI_HOME4)/include
+    SWI_LIBDIR=-L"$(SWI_HOME4)"/bin
+  endif
+endif
+
+ifeq (x86_64,$(R_ARCH))
+  $(info "Searching for SWI-Prolog in the registry (64 bit)")
+  SWI_HOME3:=$(shell "${RSCRIPT}" -e "cat(gsub('\\\\\\\\', '/', shortPathName(file.path(readRegistry('SOFTWARE\\\\\\\\SWI\\\\\\\\Prolog', hive='HLM')[['home']]))))")
+  ifeq ("$(SWI_HOME3)","")
+    $(info "Registry: SWI/Prolog not found")
+  else
+    $(info "Registry: $(SWI_HOME3) (overriding rswipl)")
+    SWI_INCLUDE=-I$(SWI_HOME3)/include
+    SWI_LIBDIR=-L"$(SWI_HOME3)"/bin
+  endif
+endif
+
+ifeq (i386,$(R_ARCH))
+  $(info "Searching for SWI-Prolog in the registry (32 bit)")
+  SWI_HOME3:=$(shell "${RSCRIPT}" -e "cat(gsub('\\\\\\\\', '/', shortPathName(file.path(readRegistry('SOFTWARE\\\\\\\\WOW6432Node\\\\\\\\SWI\\\\\\\\Prolog', hive='HLM')[['home']]))))")
+  ifeq ("$(SWI_HOME3)","")
+    $(info "Registry: SWI/Prolog not found")
+  else
+    $(info "Registry: $(SWI_HOME3) (overriding rswipl)")
+    SWI_INCLUDE=-I$(SWI_HOME3)/include
+    SWI_LIBDIR=-L"$(SWI_HOME3)"/bin
+  endif
+endif
+
+ifeq (x86_64,$(R_ARCH))
+  $(info "Searching for 64-bit swipl.exe in the PATH")
+  SWI_ARCH2:=$(shell swipl --dump-runtime-variables | grep PLARCH | sed "s/\\;//" | sed "s/PLBASE=//")
+  ifneq ("$(SWI_ARCH2)", "x64-win64")
+    $(info "PATH: 64-bit swipl.exe not found")
+  else
+    SWI_HOME2:=$(shell swipl --dump-runtime-variables | grep PLBASE | sed "s/\\;//" | sed "s/PLBASE=//")
+    ifeq ("$(SWI_HOME2)","")
+      $(info "PATH: 64-bit swipl.exe not found")
+    else
+      ifeq ("$(SWI_HOME3)","")
+        $(info "PATH: $(SWI_HOME2)")
+      else
+        $(info "PATH: $(SWI_HOME2) (overriding rswipl and/or registry)")
+      endif
+      SWI_INCLUDE=-I"$(SWI_HOME2)"/include
+      SWI_LIBDIR=-L"$(SWI_HOME2)"/bin
+    endif
+  endif
+endif
+
+SWI_HOME1:=$(SWI_HOME_DIR)
+ifeq ("$(SWI_HOME1)","")
+  $(info "Environment: SWI_HOME_DIR not defined")
+else
+  ifeq ("$(SWI_HOME2)$(SWI_HOME3)","")
+    $(info "Environment: $(SWI_HOME1)")
+  else
+    $(info "Environment: $(SWI_HOME1) (overriding PATH and/or registry and/or rswipl)")
+  endif
+  SWI_INCLUDE=-I"$(SWI_HOME1)"/include
+  SWI_LIBDIR=-L"$(SWI_HOME1)"/bin
+endif
+
+ifeq ("$(SWI_HOME1)$(SWI_HOME2)$(SWI_HOME3)$(SWI_HOME4)","")
+  $(error "SWI-Prolog not found. Please install it and/or set SWI_HOME_DIR accordingly and/or install R package rswipl.")
+endif
+
+PKG_CPPFLAGS=$(SWI_INCLUDE) -D_REENTRANT -D__SWI_PROLOG__ -D_WINDOWS -D__WINDOWS__
+PKG_LIBS=$(SWI_LIBDIR) -lswipl
+
+all: $(SHLIB)
+
+$(SHLIB): RcppExports.o rolog.o
