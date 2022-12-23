@@ -79,16 +79,21 @@ once <- function(
   }
 
   options <- c(options, rolog_options())
-	
+  query <- .preprocess(query, options$preproc)
+  
   # Decorate result with the prolog syntax of the query
   if(options$portray)
     q <- portray(query, options)
-	
+
   # Invoke C++ function that calls prolog
   r <- .once(query, options)
-	
+
+  # Hooks for postprocessing
+  if(is.list(r))
+    r <- .postprocess(r, options$postproc)
+  
   if(options$portray)
     attr(r, "query") <- q
-	
+  
   return(r)
 }

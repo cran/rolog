@@ -474,14 +474,15 @@ int(dbinom(X, Size, Prob, Log), Res)
 %
 % Helper functions
 %
-bound(L ... _, B)
- => B = L.
+bound(L ... _, B) :-
+    B = L.
 
-bound(_ ... U, B)
- => B = U.
+bound(_ ... U, B) :-
+    !,
+    B = U.
 
-bound(X, B)
- => B = X.
+bound(X, B) :-
+    B = X.
 
 %
 % General functions that do not account for intervals.
@@ -505,7 +506,7 @@ int(X, Res),
       ), List),
     min_list(List, L),
     max_list(List, U),
-    Res = L ... U.
-
-
-
+    ( length(List, 1)
+     -> [Res] = List
+     ;  Res = L ... U
+    ).

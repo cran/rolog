@@ -4,9 +4,7 @@
 \alias{consult}
 \title{Consult a prolog database}
 \usage{
-consult(
-  fname = system.file(file.path("pl", "family.pl"), package = "rolog")
-)
+consult(fname = system.file(file.path("pl", "family.pl"), package = "rolog"))
 }
 \arguments{
 \item{fname}{file name of database}

@@ -5,8 +5,7 @@
 \title{Invoke a query once}
 \usage{
 once(
-  query = call("member", expression(X), list(quote(a), "b", 3L, 4, TRUE,
-    expression(Y))),
+  query = call("member", expression(X), list(quote(a), "b", 3L, 4, TRUE, expression(Y))),
   options = list(portray = FALSE)
 )
 }

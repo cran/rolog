@@ -54,7 +54,8 @@ findall <- function(
   }
 
   options <- c(options, rolog_options())
-	
+  query <- .preprocess(query, preproc=options$preproc)
+
   # Decorate result with the prolog syntax of the query
   if(options$portray)
     q <- portray(query, options)
@@ -62,8 +63,10 @@ findall <- function(
   # Invoke C++ function that calls prolog
   r <- .findall(query, options)
 
+  # Hooks for postprocessing
+  r <- lapply(r, FUN=.postprocess, postproc=options$postproc)
   if(options$portray)
     attr(r, 'query') <- q
-	
+
   return(r)
 }

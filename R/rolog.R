@@ -223,7 +223,7 @@
         full.names=TRUE)
   		
       if(length(libswipl))
-	msg <- sprintf("Found R package rswipl: %s", home)
+        msg <- sprintf("Found R package rswipl: %s", home)
     }
   }
 
@@ -255,17 +255,23 @@
     msg <- "SWI-Prolog not found. Please set SWI_HOME_DIR accordingly, or add swipl to the PATH, or install the R package rswipl."
 
   op.rolog <- list(
-    rolog.swi_home_dir = home, # restore on .onUnload
+    rolog.swi_home_dir = home,  # restore on .onUnload
     rolog.home         = home,
     rolog.ok           = (length(libswipl) == 1),
     rolog.lib          = libswipl,
     rolog.message      = msg,
-    rolog.realvec      = "#",  # prolog representation of R numeric vectors
-    rolog.intvec       = "%",  # prolog representation of R integer vectors
-    rolog.boolvec      = "!",  # prolog representation of R boolean vectors
-    rolog.charvec      = "$$", # prolog representation of R character vectors
-    rolog.portray      = TRUE, # return prolog call, nicely formatted
-    rolog.scalar       = TRUE) # convert R vectors of size 1 to prolog scalars
+    rolog.realvec      = "#",      # prolog representation of R numeric vectors
+    rolog.realmat      = "##",     # same for matrices
+    rolog.intvec       = "%",      # prolog representation of R integer vectors
+    rolog.intmat       = "%%",     # same for matrices
+    rolog.boolvec      = "!",      # prolog representation of R boolean vectors
+    rolog.boolmat      = "!!",     # same for matrices
+    rolog.charvec      = "$$",     # prolog representation of R char vectors
+    rolog.charmat      = "$$$",    # same for matrices
+    rolog.portray      = TRUE,     # query() pretty prints prolog call
+    rolog.preproc      = preproc,  # preprocessing hook in R
+    rolog.postproc     = postproc, # postprocessing hook in R
+    rolog.scalar       = TRUE)     # convert R singletons 1 to prolog scalars
 
   set <- !(names(op.rolog) %in% names(options()))
   if(any(set))
@@ -289,21 +295,8 @@
   # See .onLoad for details
   library.dynam.unload("rolog", libpath=libpath)
 
-  if(options()$rolog.ok)
-  {
-    if(.Platform$OS.type == "unix")
-    {
-#      fp <- file.path(home, "lib")
-#      arch <- R.version$arch
-#      if(arch == "aarch64")
-#        arch <- "arm64"
-#      folder <- dir(fp, pattern=arch, full.names=TRUE)
-#      if(!length(folder) & arch == "arm64")
-#        folder <- dir(fp, pattern="aarch64-linux", full.names=TRUE)
-
-      dyn.unload(options()$rolog.lib)
-    }
-  }
+  if(options()$rolog.ok & .Platform$OS.type == "unix")
+    dyn.unload(options()$rolog.lib)
 
   invisible()
 }
@@ -325,9 +318,12 @@
   }
 
   packageStartupMessage(options()$rolog.message)
+  W1 <- once(call("message_to_string", quote(threads), expression(W)))
+  W2 <- once(call("message_to_string", quote(address_bits), expression(W)))
+  W3 <- once(call("message_to_string", quote(version), expression(W)))
 
-  W <- once(call("message_to_string", quote(welcome), expression(W)))
-  packageStartupMessage(W$W)
+  packageStartupMessage(
+    sprintf("Welcome to SWI-Prolog (%s%sversion %s)", W1$W, W2$W, W3$W))
   invisible()
 }
 
@@ -400,7 +396,7 @@ rolog_done <- function()
 #' @md
 # 
 #' @details
-#' Translation of R to Prolog
+#' Translation from R to Prolog
 #' 
 #' * numeric vector of size N -> _realvec_/N (default is #)
 #' * integer vector of size N -> _intvec_/N (default is %)
@@ -413,10 +409,21 @@ rolog_done <- function()
 rolog_options <- function()
 {
   list(
+    swi_home_dir=getOption("rolog.swi_home_dir", default="unknown"),
+    home=getOption("rolog.home", default="home"),
+    ok=getOption("rolog.ok", default=FALSE),
+    lib=getOption("rolog.lib", default="unknown"),
+    message=getOption("rolog.message", default=NA),
     realvec=getOption("rolog.realvec", default="#"),
+    realmat=getOption("rolog.realmat", default="##"),
     intvec=getOption("rolog.intvec", default="%"),
+    intmat=getOption("rolog.intmat", default="%%"),
     boolvec=getOption("rolog.boolvec", default="!"),
+    boolmat=getOption("rolog.boolmat", default="!!"),
     charvec=getOption("rolog.charvec", default="$$"),
+    charmat=getOption("rolog.charmat", default="$$$"),
     portray=getOption("rolog.portray", default=TRUE),
+    preproc=getOption("rolog.preproc", default=preproc),
+    postproc=getOption("rolog.postproc", default=postproc),
     scalar=getOption("rolog.scalar", default=TRUE))
 }

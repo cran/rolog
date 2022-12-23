@@ -5,8 +5,7 @@
 \title{Invoke a query several times}
 \usage{
 findall(
-  query = call("member", expression(X), list(quote(a), "b", 3L, 4, TRUE,
-    expression(Y))),
+  query = call("member", expression(X), list(quote(a), "b", 3L, 4, TRUE, expression(Y))),
   options = list(portray = FALSE)
 )
 }

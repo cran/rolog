@@ -5,8 +5,7 @@
 \title{Translate an R call to a prolog compound and pretty print it}
 \usage{
 portray(
-  query = call("member", expression(X), list(quote(a), "b", 3L, 4, TRUE,
-    expression(Y))),
+  query = call("member", expression(X), list(quote(a), "b", 3L, 4, TRUE, expression(Y))),
   options = NULL
 )
 }

@@ -21,9 +21,9 @@ This R package is distributed under a BSD-2 simplified license (see the file LIC
 
 ## Why is it called rolog?
 
-I guess the name is obvious, rolog. The package 
-only connects to the SWI-Prolog runtime and does not embed it. rolog supports
-the following installations of SWI-Prolog, with decreasing priority:
+I guess the name is obvious, rolog = Prolog for R. The package only connects to the
+SWI-Prolog runtime and does not embed it. rolog supports the following installations
+of SWI-Prolog, with decreasing priority:
 
 * If the environment variable `SWI_HOME_DIR` is set, the respective installation is
   used.
