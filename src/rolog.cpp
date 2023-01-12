@@ -532,6 +532,7 @@ RObject pl2r(PlTerm pl, CharacterVector& names, PlTerm& vars, List options)
     return pl2r_variable(pl, names, vars) ;
 
   stop("pl2r: Cannot convert %s", (char*) pl) ;
+  return pl2r_null() ;
 }
 
 // Translate R expression to prolog
@@ -960,24 +961,33 @@ class RlQuery
   CharacterVector names ;
   PlTerm vars ;
   List options ;
+  Environment env ;
   PlQuery* qid ;
   
 public:
-  RlQuery(RObject aquery, List aoptions) ;
+  RlQuery(RObject aquery, List aoptions, Environment aenv) ;
   ~RlQuery() ;
   
   int next_solution() ;
+
   List bindings() ;
+
   const List& get_options() const 
   {
     return options ;
   }
+
+  Environment& get_env()
+  {
+    return env ;
+  }
 } ;
 
-RlQuery::RlQuery(RObject aquery, List aoptions)
+RlQuery::RlQuery(RObject aquery, List aoptions, Environment aenv)
   : names(),
     vars(),
     options(aoptions),
+    env(aenv),
     qid(NULL)
 {
   options("atomize") = false ;
@@ -1006,6 +1016,7 @@ int RlQuery::next_solution()
   {
     char* err = (char*) ex ;
     PL_clear_exception() ;
+    warning("Prolog exception: %s", err) ;
     stop(err) ;
   }
 
@@ -1035,7 +1046,7 @@ RlQuery* query_id = NULL ;
 
 // Open a query for later use.
 // [[Rcpp::export(.query)]]
-RObject query_(RObject query, List options)
+RObject query_(RObject query, List options, Environment env)
 {
   if(PL_current_query() != 0)
   {
@@ -1043,7 +1054,7 @@ RObject query_(RObject query, List options)
     return wrap(false) ;
   }
 
-  query_id = new RlQuery(query, options) ;
+  query_id = new RlQuery(query, options, env) ;
   return wrap(true) ;
 }
 
@@ -1092,10 +1103,10 @@ RObject submit_()
 //   better ideas are welcome.
 //
 // [[Rcpp::export(.once)]]
-RObject once_(RObject query, List options)
+RObject once_(RObject query, List options, Environment env)
 {
   PlFrame f ;
-  if(!query_(query, options))
+  if(!query_(query, options, env))
     stop("Could not create query.") ;
     
   RObject l = submit_() ;
@@ -1105,10 +1116,10 @@ RObject once_(RObject query, List options)
 
 // Same as once_ above, but return all solutions to a query.
 // [[Rcpp::export(.findall)]]
-List findall_(RObject query, List options)
+List findall_(RObject query, List options, Environment env)
 {
   PlFrame f ;
-  if(!query_(query, options))
+  if(!query_(query, options, env))
     stop("Could not create query.") ;
     
   List results ;
@@ -1184,9 +1195,8 @@ PREDICATE(r_eval, 1)
   RObject Res = Expr ;
   try
   {
-    Language id("identity") ;
-    id.push_back(Expr) ;
-    Res = id.eval() ;
+    Environment env = query_id->get_env() ;
+    Res = Language("dontCheck", Expr).eval(env) ;
   }
 
   catch(std::exception& ex)
@@ -1211,14 +1221,13 @@ PREDICATE(r_eval, 2)
       Named("charvec") = "$$", Named("charmat") = "$$$",
       Named("intvec") = "%", Named("intmat") = "%%", 
       Named("atomize") = false, Named("scalar") = true) ;
- 
+
   RObject Expr = pl2r(A1, names, vars, options) ;
   RObject Res = Expr ;
   try
   {
-    Language id("identity") ;
-    id.push_back(Expr) ;
-    Res = id.eval() ;
+    Environment env = query_id->get_env() ;
+    Res = Language("dontCheck", Expr).eval(env) ;
   }
   
   catch(std::exception& ex)

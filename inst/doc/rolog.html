@@ -501,8 +501,7 @@ runtime. Ways to extend the interface are described in Section 3.</p>
 <p>After installation with <code>install.packages(&quot;rolog&quot;)</code>, the
 package is loaded in the standard way.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rolog)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Found SWI-Prolog in the PATH: /usr/local/lib/swipl</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Welcome to SWI-Prolog (threaded, 64 bits, version 9.1.2-4-g65fab31ed)</span></span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Found SWI-Prolog in the PATH: /usr/lib/swi-prolog</span></span></code></pre></div>
 <p>We can see a welcome message from SWI-Prolog. The message can be
 silenced by the usual option <code>quietly=TRUE</code> of the
 <code>library</code> command.</p>
@@ -732,6 +731,9 @@ subsection Prolog interface):</p>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">once</span>(Q)</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $X</span></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]   1   2  NA NaN Inf</span></span></code></pre></div>
+<p>The optional argument <code>env</code> to query, once and findall
+allows to raise the query (and, as a consequence, r_eval/1,2 in a
+specific environment.</p>
 </div>
 <div id="package-options" class="section level2">
 <h2>Package options</h2>
@@ -810,9 +812,11 @@ this by querying an undefined Prolog predicate.</p>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;query&quot;)</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;membr(X, [1.0, 2.0, 3.0])&quot;</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">submit</span>())</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in .submit() : </span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   error(existence_error(procedure,membr/2),context(system:call/1,_8606))</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">clear</span>()</span></code></pre></div>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .submit(): Prolog exception: error(existence_error(procedure,membr/</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2),context(system:call/1,_7372))</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in .submit() : </span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   error(existence_error(procedure,membr/2),context(system:call/1,_7372))</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">clear</span>()</span></code></pre></div>
 <p>See Section 4 for one more example with an error resulting from a
 malformed query to <code>r_eval/2</code>.</p>
 </div>
@@ -1434,7 +1438,7 @@ in general.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; function(u)</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   sin(u)</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x561e05cd4b80&gt;</span></span></code></pre></div>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x563685382250&gt;</span></span></code></pre></div>
 </div>
 <div id="calling-r-from-prolog" class="section level2">
 <h2>Calling R from Prolog</h2>
@@ -1490,8 +1494,10 @@ environment.</p>
 <p>If the R call raises an exception, the error is properly propagated
 to Prolog and finally to the <code>rolog</code> package:</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">once</span>(<span class="fu">quote</span>(<span class="fu">r_eval</span>(<span class="fu">r_sedd</span>(123L))))) <span class="co"># typo</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in .once(query, options) : </span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   r_eval(r_sedd(123),&#39;Evaluation error: could not find function &quot;r_sedd&quot;.&#39;)</span></span></code></pre></div>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .once(query, options, env): Prolog exception:</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; r_eval(r_sedd(123),&#39;Evaluation error: could not find function &quot;r_sedd&quot;.&#39;)</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in .once(query, options, env) : </span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   r_eval(r_sedd(123),&#39;Evaluation error: could not find function &quot;r_sedd&quot;.&#39;)</span></span></code></pre></div>
 </div>
 <div id="interval-arithmetic" class="section level2">
 <h2>Interval arithmetic</h2>
@@ -1620,7 +1626,7 @@ et al. 2013)</span>.</p>
 <div id="note" class="section level1">
 <h1>Note</h1>
 <p>The results in this paper were obtained using R 2.1.2022 with the
-<code>rolog</code> 0.9.9 package. R itself and all packages used are
+<code>rolog</code> 0.9.10 package. R itself and all packages used are
 available from the Comprehensive R Archive Network (CRAN) at <a href="https://CRAN.R-project.org/" class="uri">https://CRAN.R-project.org/</a>.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
