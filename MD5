@@ -1,6 +1,6 @@
-3764e878a9c61df5788134ca52874d44 *DESCRIPTION
+565e2b075718290944785df58201c528 *DESCRIPTION
 d4d56f75de3fb1cd23d87e9829887ec4 *NAMESPACE
-f47753fd78da3ce1b30e28cd9a3415bd *NEWS.md
+15c48f4e13e37081298c6c4e9cec79f6 *NEWS.md
 4ceba4cf946c6fa02f859d3dd346d313 *R/RcppExports.R
 3291c80011fbf5cee86e5a038e46cecb *R/as.rolog.R
 592d1e74242739f4f793744f43c4821a *R/consult.R
@@ -11,10 +11,10 @@ cd96a159273e5cd327cff16b0e133667 *R/once.R
 2bd74f11e25bec6a84127a7274626f15 *R/query.R
 2580499079ec05ee16b43ac246c83761 *R/rolog.R
 e57c6543f6a2e15b4b9a5af682f8e407 *README.md
-579b7090fbc00aa8460b08d2f72b99a7 *build/vignette.rds
-22f8a22b0a291890d216b1d014064984 *inst/doc/rolog.R
-cb8331311c71d88df50d62ef1c9d134f *inst/doc/rolog.Rmd
-a95db4cf14000e9d43227a8d63d8fafd *inst/doc/rolog.html
+807d65892d328377bd1df4e77d01f364 *build/vignette.rds
+5d3bda3889d91de4b895d9c12e72fff9 *inst/doc/rolog.R
+6f210b84a9580594f2db542ff522301b *inst/doc/rolog.Rmd
+aaf88a7cf1bd2a24f4a79a33a104c9bf *inst/doc/rolog.html
 192bd6076b3183835de067f30bb28ec2 *inst/pl/backdoor.pl
 de51f1127e1330e764e8bd3956e81c4b *inst/pl/buggy.pl
 cf7495451d60722d9848de3c72c5d549 *inst/pl/family.pl
@@ -40,8 +40,8 @@ aa3eadcf0f47b85e7ed69ad78040e26f *man/rolog_options.Rd
 c2535cd089bddfb5f4be5eb563851ab7 *src/Makevars
 48c1a4ddb1ef6d07752eb4b09760956b *src/Makevars.ucrt
 0f5b53baee322177bff98fa77c0989d4 *src/RcppExports.cpp
-54ec4048d40e8caa0c92162493ed8ba6 *src/rolog.cpp
+c4087dd75d2d05ddfdb33458fa0f1c06 *src/rolog.cpp
 7485b330d56810e434ca6b5837bbef70 *tests/testthat.R
 24f5d051613d0bf3a22c4e18dcd9113b *tests/testthat/test-rolog.R
-0e75f07ae646cb73d76c37bc6c289e20 *vignettes/bibliography.bibtex
-cb8331311c71d88df50d62ef1c9d134f *vignettes/rolog.Rmd
+9ef8fba48a13b077ee7381915f7121c3 *vignettes/bibliography.bibtex
+6f210b84a9580594f2db542ff522301b *vignettes/rolog.Rmd

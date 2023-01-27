@@ -1,6 +1,5 @@
 ## ---- include=FALSE-----------------------------------------------------------
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
-options(rmarkdown.html_vignette.check_title=FALSE)
+knitr::opts_chunk$set(collapse=TRUE, comment="#>")
 library(htmltools)
 library(DiagrammeR)
 library(DiagrammeRsvg)
@@ -208,15 +207,16 @@ once(call("r_norm", 3L, expression(X)))
 
 ## -----------------------------------------------------------------------------
 # Set variable in R, read in Prolog
-a <- 1
-once(call("r_eval", quote(a), expression(X)))
+env <- new.env()
+with(env, a <- 1)
+once(call("r_eval", quote(a), expression(X)), env=env)
 
 # Set R variable in Prolog, read in R
 invisible(once(call("r_eval", call("<-", quote(b), 2))))
 cat("b =", b)
 
 ## -----------------------------------------------------------------------------
-try(once(quote(r_eval(r_sedd(123L))))) # typo
+try(once(quote(r_eval(rnorm(-1))))) # return "-1 random numbers"
 
 ## -----------------------------------------------------------------------------
 consult(system.file(file.path("pl", "interval.pl"), package="rolog"))

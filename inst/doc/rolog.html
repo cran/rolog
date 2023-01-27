@@ -12,7 +12,7 @@
 
 <meta name="author" content="Matthias Gondan (Department of Psychology, Universität Innsbruck, Austria) and Jan Wielemaker (Vrije Universiteit Amsterdam/SWI-Prolog Solutions b.v.)" />
 
-<meta name="date" content="2022-12-21" />
+<meta name="date" content="2023-01-27" />
 
 <title>rolog: Prolog queries from R</title>
 
@@ -365,13 +365,13 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h4 class="author">Matthias Gondan (Department of Psychology,
 Universität Innsbruck, Austria) and Jan Wielemaker (Vrije Universiteit
 Amsterdam/SWI-Prolog Solutions b.v.)</h4>
-<h4 class="date">2022-12-21</h4>
+<h4 class="date">2023-01-27</h4>
 
 
 
 <p>Matthias Gondan<br />
+* Universität Innsbruck<br />
 Department of Psychology<br />
-University of Innsbruck<br />
 Innrain 9<br />
 A-6020 Innsbruck<br />
 <a href="mailto:Matthias.Gondan-Rochon@uibk.ac.at" class="email">Matthias.Gondan-Rochon@uibk.ac.at</a></p>
@@ -501,10 +501,14 @@ runtime. Ways to extend the interface are described in Section 3.</p>
 <p>After installation with <code>install.packages(&quot;rolog&quot;)</code>, the
 package is loaded in the standard way.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rolog)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Found SWI-Prolog in the PATH: /usr/lib/swi-prolog</span></span></code></pre></div>
-<p>We can see a welcome message from SWI-Prolog. The message can be
-silenced by the usual option <code>quietly=TRUE</code> of the
-<code>library</code> command.</p>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Found SWI-Prolog in the PATH: /usr/local/lib/swipl</span></span></code></pre></div>
+<p>We can see a short message telling the user which SWI-Prolog was
+found. The package searches for SWI-Prolog based on the environment
+variable <code>SWI_HOME_DIR</code>, the registry (Windows only), an
+executable <code>swipl</code> in the <code>PATH</code>, and if
+everything fails, R package <code>rswipl</code> <span class="citation">(Gondan 2023)</span>. The message can be silenced by
+the usual option <code>quietly=TRUE</code> of the <code>library</code>
+command.</p>
 <div id="r-interface" class="section level2">
 <h2>R interface</h2>
 <p>Most of the work is done using the three R functions
@@ -812,12 +816,12 @@ this by querying an undefined Prolog predicate.</p>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;query&quot;)</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;membr(X, [1.0, 2.0, 3.0])&quot;</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">submit</span>())</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .submit(): Prolog exception: error(existence_error(procedure,membr/</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2),context(system:call/1,_7372))</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .submit(): Prolog exception:</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; error(existence_error(procedure,membr/2),context(system:call/1,_8408))</span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in .submit() : </span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   error(existence_error(procedure,membr/2),context(system:call/1,_7372))</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   error(existence_error(procedure,membr/2),context(system:call/1,_8408))</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">clear</span>()</span></code></pre></div>
-<p>See Section 4 for one more example with an error resulting from a
+<p>See Section 4 for another example with an error resulting from a
 malformed query to <code>r_eval/2</code>.</p>
 </div>
 </div>
@@ -1438,7 +1442,7 @@ in general.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; function(u)</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   sin(u)</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x563685382250&gt;</span></span></code></pre></div>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x56497aaf04a8&gt;</span></span></code></pre></div>
 </div>
 <div id="calling-r-from-prolog" class="section level2">
 <h2>Calling R from Prolog</h2>
@@ -1479,25 +1483,28 @@ syntax and the workflow. More serious applications of are shown in the
 next two sections where <code>r_eval/2</code> is used to evaluate
 monotonically behaving R functions and to obtain the names of function
 arguments in R.</p>
-<p>As show below, R and <code>rolog</code> share the same
-environment.</p>
+<p>As show below, the default environment of <code>rolog</code>’s
+<code>r_eval/2</code> is <code>.GlobalEnv</code>, this can be changed in
+an optional argument to <code>once()</code>, <code>findall()</code>, and
+<code>query()</code>.</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set variable in R, read in Prolog</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">once</span>(<span class="fu">call</span>(<span class="st">&quot;r_eval&quot;</span>, <span class="fu">quote</span>(a), <span class="fu">expression</span>(X)))</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $X</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Set R variable in Prolog, read in R</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">once</span>(<span class="fu">call</span>(<span class="st">&quot;r_eval&quot;</span>, <span class="fu">call</span>(<span class="st">&quot;&lt;-&quot;</span>, <span class="fu">quote</span>(b), <span class="dv">2</span>))))</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;b =&quot;</span>, b)</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; b = 2</span></span></code></pre></div>
-<p>If the R call raises an exception, the error is properly propagated
-to Prolog and finally to the <code>rolog</code> package:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">once</span>(<span class="fu">quote</span>(<span class="fu">r_eval</span>(<span class="fu">r_sedd</span>(123L))))) <span class="co"># typo</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .once(query, options, env): Prolog exception:</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; r_eval(r_sedd(123),&#39;Evaluation error: could not find function &quot;r_sedd&quot;.&#39;)</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>env <span class="ot">&lt;-</span> <span class="fu">new.env</span>()</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(env, a <span class="ot">&lt;-</span> <span class="dv">1</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">once</span>(<span class="fu">call</span>(<span class="st">&quot;r_eval&quot;</span>, <span class="fu">quote</span>(a), <span class="fu">expression</span>(X)), <span class="at">env=</span>env)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $X</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Set R variable in Prolog, read in R</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">once</span>(<span class="fu">call</span>(<span class="st">&quot;r_eval&quot;</span>, <span class="fu">call</span>(<span class="st">&quot;&lt;-&quot;</span>, <span class="fu">quote</span>(b), <span class="dv">2</span>))))</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;b =&quot;</span>, b)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; b = 2</span></span></code></pre></div>
+<p>If the R call raises an exception, an error is propagated to Prolog
+and finally to the <code>rolog</code> package:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">once</span>(<span class="fu">quote</span>(<span class="fu">r_eval</span>(<span class="fu">rnorm</span>(<span class="sc">-</span><span class="dv">1</span>))))) <span class="co"># return &quot;-1 random numbers&quot;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .once(query, options, env): Prolog exception: r_eval(rnorm(-</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1.0),&#39;Evaluation error: invalid arguments.&#39;)</span></span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in .once(query, options, env) : </span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   r_eval(r_sedd(123),&#39;Evaluation error: could not find function &quot;r_sedd&quot;.&#39;)</span></span></code></pre></div>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   r_eval(rnorm(- 1.0),&#39;Evaluation error: invalid arguments.&#39;)</span></span></code></pre></div>
 </div>
 <div id="interval-arithmetic" class="section level2">
 <h2>Interval arithmetic</h2>
@@ -1626,7 +1633,7 @@ et al. 2013)</span>.</p>
 <div id="note" class="section level1">
 <h1>Note</h1>
 <p>The results in this paper were obtained using R 2.1.2022 with the
-<code>rolog</code> 0.9.10 package. R itself and all packages used are
+<code>rolog</code> 0.9.11 package. R itself and all packages used are
 available from the Comprehensive R Archive Network (CRAN) at <a href="https://CRAN.R-project.org/" class="uri">https://CRAN.R-project.org/</a>.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
@@ -1684,6 +1691,9 @@ Rules.”</span> <em>Journal of Logic Programming</em> 37: 95–138.
 <div id="ref-mathml" class="csl-entry">
 Gondan, Matthias. 2022. <em>Mathml: Translate r Expressions to MathML
 and LaTeX/MathJax</em>.
+</div>
+<div id="ref-rswipl" class="csl-entry">
+———. 2023. <em>Rswipl: Embed ’SWI’-’Prolog’</em>. <a href="https://CRAN.R-project.org/package=rswipl">https://CRAN.R-project.org/package=rswipl</a>.
 </div>
 <div id="ref-greenland1999" class="csl-entry">
 Greenland, S., J. Pearl, and J. M. Robins. 1999. <span>“Causal Diagrams
