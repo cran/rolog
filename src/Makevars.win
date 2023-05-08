@@ -15,10 +15,8 @@ ifeq ("$(SWI_HOME4)","")
   $(info R package rswipl not found, moving on.)
 else
   $(info R package rswipl found at $(SWI_HOME4))
-  $(info $(shell ls "$(SWI_HOME4)"))
-  $(info $(shell ls "$(SWI_HOME4)/include"))
-  SWI_INCLUDE=-I'$(SWI_HOME4)/include'
-  SWI_LIBDIR=-L'$(SWI_HOME4)/bin'
+  SWI_INCLUDE=-I"$(SWI_HOME4)/include"
+  SWI_LIBDIR=-L"$(SWI_HOME4)/bin"
 endif
 
 $(info Searching for SWI-Prolog in the registry...)

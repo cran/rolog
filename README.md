@@ -52,7 +52,7 @@ optional: `install.packages("rswipl")`
 
 3. Please install the "rolog" pack for R
 
-`install.packages("rolog")
+`install.packages("rolog")`
 
 Then please move on to the examples.
 
