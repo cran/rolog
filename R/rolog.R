@@ -298,7 +298,7 @@
   }
 
   if(!rolog.ok)
-    msg <- "SWI-Prolog not found. Please set SWI_HOME_DIR accordingly, or add swipl to the PATH, or install the R package rswipl."
+    msg <- "This package requires the SWI-Prolog runtime.\n\nIf SWI-Prolog is not on your system\n- You can install SWI-Prolog from https://swi-prolog.org.\n- Alternatively, install the R package rswipl.\n\nIf SWI-Prolog has been installed on your system\n- Please add swipl to the PATH.\n- Alternatively, let the environment variable SWI_HOME_DIR point to the correct folder."
 
   op.rolog <- list(
     rolog.swi_home_dir = home,  # restore on .onUnload
@@ -323,8 +323,8 @@
   if(any(set))
     options(op.rolog[set])
 
-  if(!op.rolog$rolog.ok)
-    return(invisible())
+  if(!rolog_ok(warn=TRUE))
+    return(FALSE)
 
   if(.Platform$OS.type == "windows")
     library.dynam("rolog", package=pkgname, lib.loc=libname, 
@@ -353,12 +353,8 @@
 
 .onAttach <- function(libname, pkgname)
 {
-  ok <- options()$rolog.ok
-  if(!options()$rolog.ok)
-  {
-    warning("swipl not found in the PATH. Please set SWI_HOME_DIR accordingly or install R package rswipl.")
-    return(invisible())
-  }
+  if(!rolog_ok())
+    return(FALSE)
 
   Sys.setenv(SWI_HOME_DIR=options()$rolog.home)
   if(!rolog_init())
@@ -380,13 +376,6 @@
 
 .onDetach <- function(libpath)
 {
-  ok <- options()$rolog.ok
-  if(!options()$rolog.ok)
-  {
-    warning("swipl not found in the PATH. Please set SWI_HOME_DIR accordingly or install R package rswipl.")
-    return(invisible())
-  }
-
   # Clear any open queries
   clear() 
   if(!rolog_done())
@@ -413,13 +402,6 @@
 #'
 rolog_init <- function(argv1=commandArgs()[1])
 {
-  ok <- options()$rolog.ok
-  if(!options()$rolog.ok)
-  {
-    warning("swipl not found in the PATH. Please set SWI_HOME_DIR accordingly or install R package rswipl.")
-    return(invisible())
-  }
- 
   .init(argv1)
 }
 
@@ -429,14 +411,32 @@ rolog_init <- function(argv1=commandArgs()[1])
 #' `TRUE` on success
 rolog_done <- function()
 {
-  ok <- options()$rolog.ok
-  if(!options()$rolog.ok)
-  {
-    warning("swipl not found in the PATH. Please set SWI_HOME_DIR accordingly or install R package rswipl.")
-    return(invisible())
-  }
-
   .done()
+}
+
+#' Check if rolog is properly loaded
+#'
+#' @param warn
+#' raise a warning if problems occurred
+#'
+#' @param stop
+#' raise an error if problems occurred
+#'
+#' @return
+#' TRUE if rolog is properly loaded
+#'
+rolog_ok <- function(warn=FALSE, stop=FALSE)
+{
+  if(options()$rolog.ok)
+    return(TRUE)
+
+  if(warn)
+    warning(options()$rolog.message)
+
+  if(stop)
+    stop(options()$rolog.message)
+
+  return(FALSE)
 }
 
 #' Quick access the package options

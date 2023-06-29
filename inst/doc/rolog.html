@@ -501,7 +501,7 @@ runtime. Ways to extend the interface are described in Section 3.</p>
 <p>After installation with <code>install.packages(&quot;rolog&quot;)</code>, the
 package is loaded in the standard way.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rolog)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Found R package rswipl: /home/matthias/R/x86_64-pc-linux-gnu-library/4.2/rswipl/swipl/lib/swipl</span></span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Found R package rswipl: /home/gondan/R/x86_64-pc-linux-gnu-library/4.2/rswipl/swipl/lib/swipl</span></span></code></pre></div>
 <p>We can see a short message telling the user which SWI-Prolog was
 found. The package searches for SWI-Prolog based on the environment
 variable <code>SWI_HOME_DIR</code>, the registry (Windows only), an
@@ -817,9 +817,9 @@ this by querying an undefined Prolog predicate.</p>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;membr(X, [1.0, 2.0, 3.0])&quot;</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">submit</span>())</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .submit(): Prolog exception:</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; error(existence_error(procedure,membr/2),context(system:call/1,_8682))</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; error(existence_error(procedure,membr/2),context(system:call/1,_7828))</span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in eval(expr, envir, enclos) : </span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   error(existence_error(procedure,membr/2),context(system:call/1,_8682))</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   error(existence_error(procedure,membr/2),context(system:call/1,_7828))</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">clear</span>()</span></code></pre></div>
 <p>See Section 4 for another example with an error resulting from a
 malformed query to <code>r_eval/2</code>.</p>
@@ -1442,7 +1442,7 @@ in general.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; function(u)</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   sin(u)</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x564e21074500&gt;</span></span></code></pre></div>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x56106ee130e8&gt;</span></span></code></pre></div>
 </div>
 <div id="calling-r-from-prolog" class="section level2">
 <h2>Calling R from Prolog</h2>
@@ -1632,8 +1632,8 @@ et al. 2013)</span>.</p>
 </div>
 <div id="note" class="section level1">
 <h1>Note</h1>
-<p>The results in this paper were obtained using R 2.2.2022 with the
-<code>rolog</code> 0.9.13 package. R itself and all packages used are
+<p>The results in this paper were obtained using R 2.1.2022 with the
+<code>rolog</code> 0.9.14 package. R itself and all packages used are
 available from the Comprehensive R Archive Network (CRAN) at <a href="https://CRAN.R-project.org/" class="uri">https://CRAN.R-project.org/</a>.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
@@ -1682,7 +1682,6 @@ Logic.”</span> <em>American Journal of Computational Linguistics</em> 7
 <div id="ref-Edelbuettel2018" class="csl-entry">
 Eddelbuettel, Dirk, and James Joseph Balamuta. 2018. <span>“<span class="nocase">Extending R with C++: A Brief Introduction to
 Rcpp</span>.”</span> <em>The American Statistician</em> 72 (1): 28–36.
-<a href="https://doi.org/10.1080/00031305.2017.1375990">https://doi.org/10.1080/00031305.2017.1375990</a>.
 </div>
 <div id="ref-Fruehwirth1998" class="csl-entry">
 Frühwirth, T. 1998. <span>“Theory and Practice of Constraint Handling
