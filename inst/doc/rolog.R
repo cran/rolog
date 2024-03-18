@@ -1,4 +1,4 @@
-## ---- include=FALSE-----------------------------------------------------------
+## ----include=FALSE------------------------------------------------------------
 knitr::opts_chunk$set(collapse=TRUE, comment="#>")
 library(htmltools)
 library(DiagrammeR)
@@ -41,7 +41,7 @@ query(Q)
 try(submit())
 clear()
 
-## ---- echo=FALSE, fig.width=6, fig.height=2-----------------------------------
+## ----echo=FALSE, fig.width=6, fig.height=2------------------------------------
 HTML(export_svg(grViz(
   'digraph G
    {
@@ -154,7 +154,7 @@ mathml <- function(term)
   cat(paste(t$X, collapse=""))
 }
 
-## ---- results="asis"----------------------------------------------------------
+## ----results="asis"-----------------------------------------------------------
 term <- quote(pbinom(k, N, p))
 
 # Pretty print
@@ -166,12 +166,12 @@ N <- 22
 p <- 0.4
 eval(term)
 
-## ---- results="asis"----------------------------------------------------------
+## ----results="asis"-----------------------------------------------------------
 term <- quote(integrate(sin, 0L, 2L*pi))
 mathml(term)
 eval(term)
 
-## ---- results='asis'----------------------------------------------------------
+## ----results='asis'-----------------------------------------------------------
 canonical <- function(term)
 {
   if(is.call(term))
@@ -216,22 +216,22 @@ invisible(once(call("r_eval", call("<-", quote(b), 2))))
 cat("b =", b)
 
 ## -----------------------------------------------------------------------------
-try(once(quote(r_eval(rnorm(-1))))) # return "-1 random numbers"
+#try(once(quote(r_eval(rnorm(-1))))) # return "-1" random normals
 
 ## -----------------------------------------------------------------------------
-consult(system.file(file.path("pl", "interval.pl"), package="rolog"))
+#consult(system.file(file.path("pl", "interval.pl"), package="rolog"))
 
-Q <- quote(int(`...`(1, 2) / `...`(-3, 3), .Res))
-unlist(findall(Q, options=list(preproc=as.rolog)))
+#Q <- quote(int(`...`(1, 2) / `...`(-3, 3), .Res))
+#unlist(findall(Q, options=list(preproc=as.rolog)))
 
-D  <- quote(`...`(5.7, 5.8))
-mu <- 4
-s  <- quote(`...`(3.8, 3.9))
-N  <- 24L
-tratio <- call("/", call("-", D, mu), call("/", s, call("sqrt", N)))
-once(call("int", tratio, expression(Res)))
+#D  <- quote(`...`(5.7, 5.8))
+#mu <- 4
+#s  <- quote(`...`(3.8, 3.9))
+#N  <- 24L
+#tratio <- call("/", call("-", D, mu), call("/", s, call("sqrt", N)))
+#once(call("int", tratio, expression(Res)))
 
 # Binomial density
-prob = quote(`...`(0.2, 0.3))
-once(call("int", call("dbinom", 4L, 10L, prob, FALSE), expression(Res)))
+#prob = quote(`...`(0.2, 0.3))
+#once(call("int", call("dbinom", 4L, 10L, prob, FALSE), expression(Res)))
 

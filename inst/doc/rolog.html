@@ -501,7 +501,7 @@ runtime. Ways to extend the interface are described in Section 3.</p>
 <p>After installation with <code>install.packages(&quot;rolog&quot;)</code>, the
 package is loaded in the standard way.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rolog)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Found R package rswipl: /home/gondan/R/x86_64-pc-linux-gnu-library/4.2/rswipl/swipl/lib/swipl</span></span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Found R package rswipl: /home/matthias/R/x86_64-pc-linux-gnu-library/4.2/rswipl/swipl/lib/swipl</span></span></code></pre></div>
 <p>We can see a short message telling the user which SWI-Prolog was
 found. The package searches for SWI-Prolog based on the environment
 variable <code>SWI_HOME_DIR</code>, the registry (Windows only), an
@@ -725,16 +725,20 @@ quick check for symmetry of the representation is obtained by a query to
 subsection Prolog interface):</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">call</span>(<span class="st">&quot;=&quot;</span>, <span class="fu">expression</span>(X), <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="cn">NA</span>, <span class="cn">NaN</span>, <span class="cn">Inf</span>))</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">once</span>(Q, <span class="at">options=</span><span class="fu">list</span>(<span class="at">portray=</span><span class="cn">TRUE</span>))</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $X</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]   1   2  NA NaN Inf</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;query&quot;)</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;X= ##(1.0, 2.0, na, 1.5NaN, 1.0Inf)&quot;</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">call</span>(<span class="st">&quot;r_eval&quot;</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="cn">NA</span>, <span class="cn">NaN</span>, <span class="cn">Inf</span>), <span class="fu">expression</span>(X))</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">once</span>(Q)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $X</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]   1   2  NA NaN Inf</span></span></code></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .once(query, options, env): cannot convert na to float</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $X</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]   1   2  NA NaN Inf</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;query&quot;)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;X= ##(1.0, 2.0, na, 1.5NaN, 1.0Inf)&quot;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">call</span>(<span class="st">&quot;r_eval&quot;</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="cn">NA</span>, <span class="cn">NaN</span>, <span class="cn">Inf</span>), <span class="fu">expression</span>(X))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">once</span>(Q)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .once(query, options, env): cannot convert na to float</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .once(query, options, env): cannot convert na to float</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $X</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]   1   2  NA NaN Inf</span></span></code></pre></div>
 <p>The optional argument <code>env</code> to query, once and findall
 allows to raise the query (and, as a consequence, r_eval/1,2 in a
 specific environment.</p>
@@ -816,11 +820,10 @@ this by querying an undefined Prolog predicate.</p>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;query&quot;)</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;membr(X, [1.0, 2.0, 3.0])&quot;</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">submit</span>())</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .submit(): Prolog exception:</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; error(existence_error(procedure,membr/2),context(system:call/1,_7828))</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in eval(expr, envir, enclos) : </span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   error(existence_error(procedure,membr/2),context(system:call/1,_7828))</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">clear</span>()</span></code></pre></div>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .submit():</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; error(existence_error(procedure,membr/2),context(system:call/1,_))</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">clear</span>()</span></code></pre></div>
 <p>See Section 4 for another example with an error resulting from a
 malformed query to <code>r_eval/2</code>.</p>
 </div>
@@ -1442,7 +1445,7 @@ in general.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; function(u)</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   sin(u)</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x56106ee130e8&gt;</span></span></code></pre></div>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x55c4bc504748&gt;</span></span></code></pre></div>
 </div>
 <div id="calling-r-from-prolog" class="section level2">
 <h2>Calling R from Prolog</h2>
@@ -1500,11 +1503,7 @@ an optional argument to <code>once()</code>, <code>findall()</code>, and
 <span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; b = 2</span></span></code></pre></div>
 <p>If the R call raises an exception, an error is propagated to Prolog
 and finally to the <code>rolog</code> package:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">once</span>(<span class="fu">quote</span>(<span class="fu">r_eval</span>(<span class="fu">rnorm</span>(<span class="sc">-</span><span class="dv">1</span>))))) <span class="co"># return &quot;-1 random numbers&quot;</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in .once(query, options, env): Prolog exception: r_eval(rnorm(-</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1.0),&quot;exception occurred&quot;)</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in eval(expr, envir, enclos) : </span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   r_eval(rnorm(- 1.0),&quot;exception occurred&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#try(once(quote(r_eval(rnorm(-1))))) # return &quot;-1&quot; random normals</span></span></code></pre></div>
 </div>
 <div id="interval-arithmetic" class="section level2">
 <h2>Interval arithmetic</h2>
@@ -1532,30 +1531,21 @@ few rules for basic interval arithmetic are found in
 <code>pl/interval.pl</code>; a few examples are shown below. Again,
 Prolog rings back to R via <code>r_eval/2</code> to determine the result
 of <code>dbinom(X, Size, Prob, Log)</code>.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">consult</span>(<span class="fu">system.file</span>(<span class="fu">file.path</span>(<span class="st">&quot;pl&quot;</span>, <span class="st">&quot;interval.pl&quot;</span>), <span class="at">package=</span><span class="st">&quot;rolog&quot;</span>))</span>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#consult(system.file(file.path(&quot;pl&quot;, &quot;interval.pl&quot;), package=&quot;rolog&quot;))</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">quote</span>(<span class="fu">int</span>(<span class="st">`</span><span class="at">...</span><span class="st">`</span>(<span class="dv">1</span>, <span class="dv">2</span>) <span class="sc">/</span> <span class="st">`</span><span class="at">...</span><span class="st">`</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>), .Res))</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">unlist</span>(<span class="fu">findall</span>(Q, <span class="at">options=</span><span class="fu">list</span>(<span class="at">preproc=</span>as.rolog)))</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $Res</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ...(-Inf, -0.333333333333333)</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $Res</span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ...(0.333333333333333, Inf)</span></span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>D  <span class="ot">&lt;-</span> <span class="fu">quote</span>(<span class="st">`</span><span class="at">...</span><span class="st">`</span>(<span class="fl">5.7</span>, <span class="fl">5.8</span>))</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>s  <span class="ot">&lt;-</span> <span class="fu">quote</span>(<span class="st">`</span><span class="at">...</span><span class="st">`</span>(<span class="fl">3.8</span>, <span class="fl">3.9</span>))</span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>N  <span class="ot">&lt;-</span> 24L</span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>tratio <span class="ot">&lt;-</span> <span class="fu">call</span>(<span class="st">&quot;/&quot;</span>, <span class="fu">call</span>(<span class="st">&quot;-&quot;</span>, D, mu), <span class="fu">call</span>(<span class="st">&quot;/&quot;</span>, s, <span class="fu">call</span>(<span class="st">&quot;sqrt&quot;</span>, N)))</span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="fu">once</span>(<span class="fu">call</span>(<span class="st">&quot;int&quot;</span>, tratio, <span class="fu">expression</span>(Res)))</span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $Res</span></span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ...(2.13545259627251, 2.32056923000512)</span></span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Binomial density</span></span>
-<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">=</span> <span class="fu">quote</span>(<span class="st">`</span><span class="at">...</span><span class="st">`</span>(<span class="fl">0.2</span>, <span class="fl">0.3</span>))</span>
-<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a><span class="fu">once</span>(<span class="fu">call</span>(<span class="st">&quot;int&quot;</span>, <span class="fu">call</span>(<span class="st">&quot;dbinom&quot;</span>, 4L, 10L, prob, <span class="cn">FALSE</span>), <span class="fu">expression</span>(Res)))</span>
-<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $Res</span></span>
-<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ...(0.088080384, 0.200120949)</span></span></code></pre></div>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Q &lt;- quote(int(`...`(1, 2) / `...`(-3, 3), .Res))</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co">#unlist(findall(Q, options=list(preproc=as.rolog)))</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">#D  &lt;- quote(`...`(5.7, 5.8))</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co">#mu &lt;- 4</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co">#s  &lt;- quote(`...`(3.8, 3.9))</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="co">#N  &lt;- 24L</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co">#tratio &lt;- call(&quot;/&quot;, call(&quot;-&quot;, D, mu), call(&quot;/&quot;, s, call(&quot;sqrt&quot;, N)))</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co">#once(call(&quot;int&quot;, tratio, expression(Res)))</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Binomial density</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="co">#prob = quote(`...`(0.2, 0.3))</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="co">#once(call(&quot;int&quot;, call(&quot;dbinom&quot;, 4L, 10L, prob, FALSE), expression(Res)))</span></span></code></pre></div>
 <p>The slightly cumbersome syntax for entering an interval <span class="math inline">\(\langle \ell, u\rangle\)</span> is due to the fact
 that the ellipsis is a reserved symbol in R and cannot be used as an
 infix operator. A powerful and comprehensive system for constraint logic
@@ -1632,8 +1622,8 @@ et al. 2013)</span>.</p>
 </div>
 <div id="note" class="section level1">
 <h1>Note</h1>
-<p>The results in this paper were obtained using R 2.1.2022 with the
-<code>rolog</code> 0.9.14 package. R itself and all packages used are
+<p>The results in this paper were obtained using R 2.2.2022 with the
+<code>rolog</code> 0.9.15 package. R itself and all packages used are
 available from the Comprehensive R Archive Network (CRAN) at <a href="https://CRAN.R-project.org/" class="uri">https://CRAN.R-project.org/</a>.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
