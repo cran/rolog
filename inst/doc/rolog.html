@@ -501,7 +501,8 @@ runtime. Ways to extend the interface are described in Section 3.</p>
 <p>After installation with <code>install.packages(&quot;rolog&quot;)</code>, the
 package is loaded in the standard way.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rolog)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Found R package rswipl: /home/matthias/R/x86_64-pc-linux-gnu-library/4.2/rswipl/swipl/lib/swipl</span></span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Found SWI-Prolog at /home/matthias/R/x86_64-pc-linux-gnu-library/4.2/rswipl/swipl/lib/swipl</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Welcome to SWI-Prolog (threaded, 64 bits, version 9.3.3)</span></span></code></pre></div>
 <p>We can see a short message telling the user which SWI-Prolog was
 found. The package searches for SWI-Prolog based on the environment
 variable <code>SWI_HOME_DIR</code>, the registry (Windows only), an
@@ -1445,7 +1446,7 @@ in general.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; function(u)</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   sin(u)</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x55c4bc504748&gt;</span></span></code></pre></div>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x559ceac3d2e8&gt;</span></span></code></pre></div>
 </div>
 <div id="calling-r-from-prolog" class="section level2">
 <h2>Calling R from Prolog</h2>
@@ -1623,7 +1624,7 @@ et al. 2013)</span>.</p>
 <div id="note" class="section level1">
 <h1>Note</h1>
 <p>The results in this paper were obtained using R 2.2.2022 with the
-<code>rolog</code> 0.9.15 package. R itself and all packages used are
+<code>rolog</code> 0.9.16 package. R itself and all packages used are
 available from the Comprehensive R Archive Network (CRAN) at <a href="https://CRAN.R-project.org/" class="uri">https://CRAN.R-project.org/</a>.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
