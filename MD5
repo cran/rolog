@@ -1,12 +1,12 @@
-cf1f3292f8567a9a95ebf3b6d0b81e0c *DESCRIPTION
+e2dba325486cede2b2b84227a4883e23 *DESCRIPTION
 cc366808e7d7546b5a449dc472e03444 *NAMESPACE
-95c153c6a8a1a0fd9d9e012c7aa182f3 *NEWS.md
+9f446a7623d90960284b5179ca632c34 *NEWS.md
 975444fee715a6a12b42fd827bb2dcb3 *R/RcppExports.R
 3291c80011fbf5cee86e5a038e46cecb *R/as.rolog.R
 2bbf9eefcd0c7bfeb4fad5203d50a6e6 *R/consult.R
 88ff513c48ea597f5f46410b4d4b8037 *R/findall.R
 0fae27d1371a44ef03d96fa5a57a9b2e *R/once.R
-68f7ef9d63163a044eaf218a6ed7d393 *R/plbase.R
+43ec6459fd5218c4f1839f655402605e *R/plbase.R
 7a9d2b922694f76b43e6cab957fbda63 *R/portray.R
 54e70a81e0019928af1211e1e9cc3951 *R/preproc.R
 cb7170b29d1bf62f2d3cb5f62899df19 *R/query.R
@@ -15,7 +15,7 @@ f5195fda39a654f24465bc1efa59778f *README.md
 8ceb50f5dcc5d45e27bf30b7f922cc42 *build/vignette.rds
 5dbbbc105594727c471cf35586c0776a *inst/doc/rolog.R
 faf603f5e2265cdfeb7ce101986fedeb *inst/doc/rolog.Rmd
-a9c171e781218b8f51dd179e00931c1b *inst/doc/rolog.html
+d43a5883f582efb1b2a14e8687a55077 *inst/doc/rolog.html
 192bd6076b3183835de067f30bb28ec2 *inst/pl/backdoor.pl
 de51f1127e1330e764e8bd3956e81c4b *inst/pl/buggy.pl
 cf7495451d60722d9848de3c72c5d549 *inst/pl/family.pl
@@ -23,7 +23,6 @@ cf7495451d60722d9848de3c72c5d549 *inst/pl/family.pl
 fe32dc3d39d29d7c5a8f339f5d50c0c5 *inst/pl/mathjax.pl
 df3da61d5e03f8a4667ccc8267471166 *inst/pl/mathml.pl
 6cded6fff6f8021c336982b297e43b9d *inst/pl/r_eval.pl
-0101c3bdb2355951d2a2cbc726df8ef3 *inst/pl/rolog.pl
 c6d5847286da2f8d43bb54d6be6e33ac *inst/pl/telescope.pl
 ae79d511b916324dbd7a2c5c39f2dc8d *man/as.rolog.Rd
 70616875fe807b67f8dd75962fafc3fd *man/clear.Rd
@@ -39,7 +38,7 @@ f22ea5769957d67b84d4a7f010103e54 *man/rolog_init.Rd
 2463a4688ec52c4af65158b98746b6bb *man/rolog_ok.Rd
 0bcc8bcad2a60cf22fbc888ace693534 *man/rolog_options.Rd
 600dec77a8374af20db56ac4c2bb4dff *man/submit.Rd
-c63697f74cdc8cbd0008884a39b2600f *src/Makevars
+d0ca9351f96eb8921835c52beb9059eb *src/Makevars
 f09909d256c6c576e07e5d33fe1b9ab9 *src/Makevars.win
 0f5b53baee322177bff98fa77c0989d4 *src/RcppExports.cpp
 e1a209ec9e9028d92e0791e05760043a *src/crolog.cpp
