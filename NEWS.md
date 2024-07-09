@@ -1,7 +1,11 @@
+# rolog 0.9.18
+
+* bugfix: PL-get-atom-chars
+* workaround for Rcpp::Language
+
 # rolog 0.9.17
 
 * Maintainance release: improve behavior with parallel make
-* improve detection of swi-prolog runtime
 
 # rolog 0.9.16
 

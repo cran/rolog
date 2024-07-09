@@ -1,6 +1,6 @@
-e2dba325486cede2b2b84227a4883e23 *DESCRIPTION
+2767601e665afd1fbc68260084656fa2 *DESCRIPTION
 cc366808e7d7546b5a449dc472e03444 *NAMESPACE
-9f446a7623d90960284b5179ca632c34 *NEWS.md
+da46cc006fde1e3f7b33391475ecb87e *NEWS.md
 975444fee715a6a12b42fd827bb2dcb3 *R/RcppExports.R
 3291c80011fbf5cee86e5a038e46cecb *R/as.rolog.R
 2bbf9eefcd0c7bfeb4fad5203d50a6e6 *R/consult.R
@@ -15,7 +15,7 @@ f5195fda39a654f24465bc1efa59778f *README.md
 8ceb50f5dcc5d45e27bf30b7f922cc42 *build/vignette.rds
 5dbbbc105594727c471cf35586c0776a *inst/doc/rolog.R
 faf603f5e2265cdfeb7ce101986fedeb *inst/doc/rolog.Rmd
-d43a5883f582efb1b2a14e8687a55077 *inst/doc/rolog.html
+8f32e88ddf956a14f20a864bf2bf5b9b *inst/doc/rolog.html
 192bd6076b3183835de067f30bb28ec2 *inst/pl/backdoor.pl
 de51f1127e1330e764e8bd3956e81c4b *inst/pl/buggy.pl
 cf7495451d60722d9848de3c72c5d549 *inst/pl/family.pl
@@ -38,10 +38,10 @@ f22ea5769957d67b84d4a7f010103e54 *man/rolog_init.Rd
 2463a4688ec52c4af65158b98746b6bb *man/rolog_ok.Rd
 0bcc8bcad2a60cf22fbc888ace693534 *man/rolog_options.Rd
 600dec77a8374af20db56ac4c2bb4dff *man/submit.Rd
-d0ca9351f96eb8921835c52beb9059eb *src/Makevars
+866bf0b11bda27b5f1f301a4ba502ecb *src/Makevars
 f09909d256c6c576e07e5d33fe1b9ab9 *src/Makevars.win
 0f5b53baee322177bff98fa77c0989d4 *src/RcppExports.cpp
-e1a209ec9e9028d92e0791e05760043a *src/crolog.cpp
+30b7aa721c3826a2f0164d774d917e40 *src/crolog.cpp
 7485b330d56810e434ca6b5837bbef70 *tests/testthat.R
 24f5d051613d0bf3a22c4e18dcd9113b *tests/testthat/test-rolog.R
 76ffffbd2c9c6dac0c7eb2ec060d4b17 *vignettes/bibliography.bibtex
