@@ -768,11 +768,11 @@ RObject pl2r(term_t pl, CharacterVector& names, term_t& vars, List options)
   if(PL_is_integer(pl))
     return pl2r_integer(pl) ;
 
-  if(PL_is_float(pl))
-    return pl2r_real(pl) ;
-
   if(PL_is_string(pl))
     return pl2r_char(pl) ;
+
+  if(PL_is_float(pl))
+    return pl2r_real(pl) ;
 
   if(PL_is_atom(pl))
     return pl2r_symbol(pl) ;
@@ -1433,6 +1433,8 @@ term_t r2pl(SEXP r, CharacterVector& names, term_t& vars, List options)
   return r2pl_na() ;
 }
 
+#ifdef RPACKAGE
+
 class RlQuery
 {
   CharacterVector names ;
@@ -1804,7 +1806,7 @@ static foreign_t r_eval2(term_t arg1, term_t arg2)
   return PL_unify(arg2, pl) ;
 }
 
-static foreign_t r_eval(term_t args, int arity, void* context)
+static foreign_t r_eval(term_t args, unsigned long arity, struct foreign_context* context)
 {
   if(arity == 1)
     return r_eval1(args) ;
@@ -1867,3 +1869,146 @@ LogicalVector done_()
   pl_initialized = false ;
   return true ;
 }
+
+#endif // RPACKAGE
+ 
+#ifdef PROLOGPACK
+
+#include "SWI-cpp2.h"
+#include "RInside.h"
+
+RInside* r_instance = NULL ;
+
+PREDICATE(r_init, 0)
+{
+  if(r_instance)
+    return true ;
+
+  static int argc ;
+  static char** argv ;
+  if(!PL_is_initialised(&argc, &argv))
+  {
+    throw PlException(PlTerm_string("Prolog not initialized. Exiting.")) ;
+    return false ;
+  }
+
+  r_instance = new RInside(argc, argv) ;
+  return true ;
+}
+
+PREDICATE(r_eval_, 1)
+{
+  if(!R_TempDir)
+    throw PlException(PlTerm_string("R not initialized. Please invoke r_init.")) ;
+
+  CharacterVector names ;
+  term_t vars = PL_new_term_ref() ;
+  List options ;
+  options = List::create(
+    Named("realvec") = "##", Named("realmat") = "###",
+    Named("boolvec") = "!!", Named("boolmat") = "!!!",
+    Named("charvec") = "$$", Named("charmat") = "$$$",
+    Named("intvec") = "%%", Named("intmat") = "%%%",
+    Named("atomize") = false, Named("scalar") = true) ;
+
+  RObject Expr = pl2r(A1.unwrap(), names, vars, options) ;
+  RObject Res = Expr ;
+  try
+  {
+    Language id("identity") ;
+    id.push_back(Expr) ;
+    Res = Rcpp_eval(id, Environment::global_env()) ;
+  }
+
+  catch(const Rcpp::eval_error& ex)
+  {
+    PlCompound syntax("evaluation_error", PlTermv(A1)) ;
+    PlCompound context("context", PlTermv(PlTerm_string("foreign r_eval_/2"), PlTerm_string(ex.what()))) ;
+    throw PlException(PlCompound("error", PlTermv(syntax, context))) ;
+  }
+  
+  catch(const std::exception& ex)
+  {
+    PlCompound syntax("evaluation_error", PlTermv(A1)) ;
+    PlCompound context("context", PlTermv(PlTerm_string("foreign r_eval_/2"), PlTerm_string(ex.what()))) ;
+    throw PlException(PlCompound("error", PlTermv(syntax, context))) ;
+  }
+
+  catch(...)
+  {
+    throw PlException(PlTerm_string("unknown exception")) ;
+    return false ;
+  }
+
+  return true ;
+}
+
+PREDICATE(r_eval_, 2)
+{
+  if(!R_TempDir)
+    throw PlException(PlTerm_string("R not initialized. Please invoke r_init.")) ;
+
+  CharacterVector names ;
+  term_t vars = PL_new_term_ref() ;
+  List options ;
+  options = List::create(
+    Named("realvec") = "##", Named("realmat") = "###",
+    Named("boolvec") = "!!", Named("boolmat") = "!!!",
+    Named("charvec") = "$$", Named("charmat") = "$$$",
+    Named("intvec") = "%%", Named("intmat") = "%%%",
+    Named("atomize") = false, Named("scalar") = true) ;
+
+  RObject Expr = pl2r(A1.unwrap(), names, vars, options) ;
+  RObject Res = Expr ;
+  try
+  {
+    Language id("identity") ;
+    id.push_back(Expr) ;
+    Res = Rcpp_eval(id, Environment::global_env()) ;
+  }
+
+  catch(const Rcpp::eval_error& ex)
+  {
+    PlCompound syntax("evaluation_error", PlTermv(A1)) ;
+    PlCompound context("context", PlTermv(PlTerm_string("foreign r_eval_/2"), PlTerm_string(ex.what()))) ;
+    throw PlException(PlCompound("error", PlTermv(syntax, context))) ;
+  }
+
+  catch(const std::exception& ex)
+  {
+    PlCompound syntax("evaluation_error", PlTermv(A1)) ;
+    PlCompound context("context", PlTermv(PlTerm_string("foreign r_eval_/2"), PlTerm_string(ex.what()))) ;
+    throw PlException(PlCompound("error", PlTermv(syntax, context))) ;
+  }
+
+  catch(...)
+  {
+    throw PlException(PlTerm_string("unknown exception")) ;
+    return false ;
+  }
+
+  try
+  {
+    if(!A2.unify_term(PlTerm_term_t(r2pl(Res, names, vars, options))))
+    {
+      throw PlException(PlTerm_string("r_eval/2: Cannot unify R object.")) ;
+      return false ;
+    }
+  }
+
+  catch(std::exception& ex)
+  {
+    throw PlException(PlTerm_string(ex.what())) ;
+    return false ;
+  }
+
+  catch(...)
+  {
+    throw PlException(PlTerm_string("unknown exception1")) ;
+    return false ;
+  }
+
+  return true ;
+}
+
+#endif // PROLOGPACK
