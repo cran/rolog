@@ -816,10 +816,8 @@ this by querying an undefined Prolog predicate.</p>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;query&quot;)</span></span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;membr(X, [1.0, 2.0, 3.0])&quot;</span></span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">try</span>(<span class="fu">submit</span>())</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; Warning in .submit():</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; error(existence_error(procedure,membr/2),context(system:call/1,_))</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="fu">clear</span>()</span></code></pre></div>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">clear</span>()</span></code></pre></div>
 <p>See Section 4 for another example with an error resulting from a
 malformed query to <code>r_eval/2</code>.</p>
 </div>
@@ -1009,7 +1007,7 @@ functions.</p>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;query&quot;)</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot;member(X, [1.0, 2.0, 3.0, a, 5.0, 1.0=&lt;2.0])&quot;</span></span></code></pre></div>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
 <p>Note that the name of the variable will still be <code>X</code> in
 the later course, not “dot-X”. As illustrated by the example above,
 <code>as.rolog</code> treats the argument <code>a</code> as a symbol; to
@@ -1441,7 +1439,7 @@ in general.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">print</span>(g)</span>
 <span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="co">#&gt; function (u) </span></span>
 <span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a><span class="co">#&gt; sin(u)</span></span>
-<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x565387dd7398&gt;</span></span></code></pre></div>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x5556b149e7b0&gt;</span></span></code></pre></div>
 </div>
 <div id="calling-r-from-prolog" class="section level2">
 <h2>Calling R from Prolog</h2>
@@ -1619,7 +1617,7 @@ et al. 2013)</span>.</p>
 <div id="note" class="section level1">
 <h1>Note</h1>
 <p>The results in this paper were obtained using R 4.1.2024 with the
-<code>rolog</code> 0.9.20 package. R itself and all packages used are
+<code>rolog</code> 0.9.21 package. R itself and all packages used are
 available from the Comprehensive R Archive Network (CRAN) at <a href="https://CRAN.R-project.org/" class="uri">https://CRAN.R-project.org/</a>.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
