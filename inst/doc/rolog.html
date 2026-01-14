@@ -62,7 +62,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -150,6 +150,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 div.csl-bib-body { }
 div.csl-entry {
 clear: both;
+margin-bottom: 0em;
 }
 .hanging div.csl-entry {
 margin-left:2em;
@@ -458,12 +459,14 @@ Angelopoulos et al. 2013; Wielemaker 2021b)</span> and as a YAP module
 <code>real</code> establishes a direct link to an embedded instance of
 R, <code>rserve-client</code> communicates with a local or remote R
 service <span class="citation">(Urbanek 2021)</span>. The former
-approach emphasizes speed, the latter might be preferred from a security
-perspective, especially in systems such as SWISH <span class="citation">(Wielemaker, Lager, and Riguzzi 2015)</span> that
-accept only a set of sandboxed commands for Prolog, but do not impose
-restrictions on R. A common feature of the two packages is that they
-provide an interface for R calls from Prolog, but not the other way
-round, that is, querying Prolog from R is not possible, so far.</p>
+approach emphasizes speed, the latter allows for multithreading and
+might be preferred from a security perspective, especially in systems
+such as SWISH <span class="citation">(Wielemaker, Lager, and Riguzzi
+2015)</span> that accept only a set of sandboxed commands for Prolog,
+but do not impose restrictions on R. A common feature of the two
+packages is that they provide an interface for R calls from Prolog, but
+not the other way round, that is, querying Prolog from R is not
+possible, so far.</p>
 <p>The present package fills this gap through Prolog queries in R
 scripts, for example, to perform efficient symbolic computations,
 searches in complex graphs, parsing natural language and definite clause
@@ -501,7 +504,7 @@ runtime. Ways to extend the interface are described in Section 3.</p>
 package is loaded in the standard way.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(rolog)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Found SWI-Prolog at /usr/local/lib/swipl</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#&gt; Welcome to SWI-Prolog (threaded, 64 bits, version 9.3.20-91-gf468d7692-DIRTY)</span></span></code></pre></div>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#&gt; Welcome to SWI-Prolog (threaded, 64 bits, version 9.3.31-36-g75bccf4c4-DIRTY)</span></span></code></pre></div>
 <p>We can see a short message telling the user which SWI-Prolog was
 found. The package searches for SWI-Prolog based on the environment
 variable <code>SWI_HOME_DIR</code>, the registry (Windows only), an
@@ -883,7 +886,7 @@ afterwards (see the example with dicts below)</li>
 <!-- Query&#45;&gt;r2rolog -->
 <g id="edge5" class="edge">
 <title>Query-&gt;r2rolog</title>
-<path fill="none" stroke="#000000" d="M82.0239,-99.261C91.6985,-99.0844 102.0124,-98.8963 111.6407,-98.7206"></path>
+<path fill="none" stroke="#000000" d="M82.0239,-99.261C91.6985,-99.0844 102.0124,-98.8963 111.6407,-98.7206" />
 <polygon fill="#000000" stroke="#000000" points="111.8224,-102.218 121.7568,-98.536 111.6946,-95.2191 111.8224,-102.218"></polygon>
 </g>
 <!-- Result -->
@@ -905,7 +908,7 @@ afterwards (see the example with dicts below)</li>
 <!-- Result&#45;&gt;rolog2r -->
 <g id="edge8" class="edge">
 <title>Result-&gt;rolog2r</title>
-<path fill="none" stroke="#000000" d="M77.6825,-31.9898C90.9116,-32.3518 105.7858,-32.7589 118.6719,-33.1115"></path>
+<path fill="none" stroke="#000000" d="M77.6825,-31.9898C90.9116,-32.3518 105.7858,-32.7589 118.6719,-33.1115" />
 <polygon fill="#000000" stroke="#000000" points="77.5872,-28.4859 67.4951,-31.711 77.3956,-35.4833 77.5872,-28.4859"></polygon>
 </g>
 <!-- forth -->
@@ -917,7 +920,7 @@ afterwards (see the example with dicts below)</li>
 <!-- r2rolog&#45;&gt;forth -->
 <g id="edge1" class="edge">
 <title>r2rolog-&gt;forth</title>
-<path fill="none" stroke="#000000" d="M180.6523,-98C189.3761,-98 199.1636,-98 208.7474,-98"></path>
+<path fill="none" stroke="#000000" d="M180.6523,-98C189.3761,-98 199.1636,-98 208.7474,-98" />
 <polygon fill="#000000" stroke="#000000" points="209.0069,-101.5001 219.0069,-98 209.0068,-94.5001 209.0069,-101.5001"></polygon>
 </g>
 <!-- rolog_pl -->
@@ -929,7 +932,7 @@ afterwards (see the example with dicts below)</li>
 <!-- forth&#45;&gt;rolog_pl -->
 <g id="edge2" class="edge">
 <title>forth-&gt;rolog_pl</title>
-<path fill="none" stroke="#000000" d="M295.1192,-98C304.2843,-98 314.1616,-98 323.6074,-98"></path>
+<path fill="none" stroke="#000000" d="M295.1192,-98C304.2843,-98 314.1616,-98 323.6074,-98" />
 <polygon fill="#000000" stroke="#000000" points="323.6337,-101.5001 333.6337,-98 323.6336,-94.5001 323.6337,-101.5001"></polygon>
 </g>
 <!-- Prolog -->
@@ -943,7 +946,7 @@ afterwards (see the example with dicts below)</li>
 <!-- rolog_pl&#45;&gt;Prolog -->
 <g id="edge6" class="edge">
 <title>rolog_pl:e-&gt;Prolog</title>
-<path fill="none" stroke="#000000" d="M403.4935,-98C415.254,-98 427.2841,-94.6558 438.1805,-90.1297"></path>
+<path fill="none" stroke="#000000" d="M403.4935,-98C415.254,-98 427.2841,-94.6558 438.1805,-90.1297" />
 <polygon fill="#000000" stroke="#000000" points="439.7892,-93.2427 447.429,-85.9022 436.8791,-86.8763 439.7892,-93.2427"></polygon>
 </g>
 <!-- back -->
@@ -955,7 +958,7 @@ afterwards (see the example with dicts below)</li>
 <!-- rolog2r&#45;&gt;back -->
 <g id="edge3" class="edge">
 <title>rolog2r-&gt;back</title>
-<path fill="none" stroke="#000000" d="M193.519,-34C201.9303,-34 210.7131,-34 218.9718,-34"></path>
+<path fill="none" stroke="#000000" d="M193.519,-34C201.9303,-34 210.7131,-34 218.9718,-34" />
 <polygon fill="#000000" stroke="#000000" points="193.5037,-30.5001 183.5037,-34 193.5036,-37.5001 193.5037,-30.5001"></polygon>
 </g>
 <!-- pl_rolog -->
@@ -967,13 +970,13 @@ afterwards (see the example with dicts below)</li>
 <!-- back&#45;&gt;pl_rolog -->
 <g id="edge4" class="edge">
 <title>back-&gt;pl_rolog</title>
-<path fill="none" stroke="#000000" d="M305.2928,-34C313.7738,-34 322.4911,-34 330.6388,-34"></path>
+<path fill="none" stroke="#000000" d="M305.2928,-34C313.7738,-34 322.4911,-34 330.6388,-34" />
 <polygon fill="#000000" stroke="#000000" points="305.1193,-30.5001 295.1192,-34 305.1192,-37.5001 305.1193,-30.5001"></polygon>
 </g>
 <!-- pl_rolog&#45;&gt;Prolog -->
 <g id="edge7" class="edge">
 <title>pl_rolog:e-&gt;Prolog</title>
-<path fill="none" stroke="#000000" d="M416.6536,-34.8303C427.7021,-36.5766 438.5788,-40.8717 448.0695,-45.7339"></path>
+<path fill="none" stroke="#000000" d="M416.6536,-34.8303C427.7021,-36.5766 438.5788,-40.8717 448.0695,-45.7339" />
 <polygon fill="#000000" stroke="#000000" points="416.7454,-31.3262 406.4935,-34 416.1752,-38.303 416.7454,-31.3262"></polygon>
 </g>
 </g>
@@ -1439,7 +1442,7 @@ in general.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">print</span>(g)</span>
 <span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="co">#&gt; function (u) </span></span>
 <span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a><span class="co">#&gt; sin(u)</span></span>
-<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x556bac7998a8&gt;</span></span></code></pre></div>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x5c739bd78fe0&gt;</span></span></code></pre></div>
 </div>
 <div id="calling-r-from-prolog" class="section level2">
 <h2>Calling R from Prolog</h2>
@@ -1597,8 +1600,8 @@ calls and R expressions for representing Prolog variables.
 far, only depends on base R. A more concise representation might be
 obtained by tools from the “Tidyverse” ecosystem, as described in
 Chapter 19 of Advanced R <span class="citation">(Wickham 2019)</span>.
-Finally, at this stage, <code>rolog</code> is unable to deal with cyclic
-terms (e.g.,
+As R, <code>rolog</code> is single-threaded, and at this stage,
+<code>rolog</code> is unable to deal with cyclic terms (e.g.,
 <code>once(call(&quot;=&quot;, expression(A), call(&quot;f&quot;, expression(A))))</code>,
 i.e., <code>A = f(A)</code> raises an error message).</p>
 <p><code>rolog</code> is available for R Version 4.2 and later, and can
@@ -1616,13 +1619,13 @@ et al. 2013)</span>.</p>
 </div>
 <div id="note" class="section level1">
 <h1>Note</h1>
-<p>The results in this paper were obtained using R 4.1.2024 with the
-<code>rolog</code> 0.9.23 package. R itself and all packages used are
+<p>The results in this paper were obtained using R 5.1.2025 with the
+<code>rolog</code> 0.9.24 package. R itself and all packages used are
 available from the Comprehensive R Archive Network (CRAN) at <a href="https://CRAN.R-project.org/" class="uri">https://CRAN.R-project.org/</a>.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="unnumbered">References</h1>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-Angelopoulos2013" class="csl-entry">
 Angelopoulos, Nicos, Vitor Santos Costa, Joao Azevedo, Jan Wielemaker,
 Rui Camacho, and Lodewyk Wessels. 2013. <span>“Integrative Functional
@@ -1663,7 +1666,7 @@ Dahl, V. 1981. <span>“Translating Spanish into Logic Through
 Logic.”</span> <em>American Journal of Computational Linguistics</em> 7
 (3): 149–64.
 </div>
-<div id="ref-Edelbuettel2018" class="csl-entry">
+<div id="ref-Eddelbuettel2018" class="csl-entry">
 Eddelbuettel, Dirk, and James Joseph Balamuta. 2018. <span>“<span class="nocase">Extending R with C++: A Brief Introduction to
 Rcpp</span>.”</span> <em>The American Statistician</em> 72 (1): 28–36.
 </div>
