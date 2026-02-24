@@ -1,3 +1,8 @@
+# rolog 0.9.25
+
+* run swipl's unit tests during R CMD check
+* maintainance release, compatible with swipl >= 10.1.2
+
 # rolog 0.9.24
 
 * add mutex to prevent simultaneous calls to R
